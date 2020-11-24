@@ -12,6 +12,8 @@
 #define P2 PORTB2	//=> DDB2
 #define P3 PORTB3	//=> DDB3
 
+#define LED_COUNT 12
+
 #define SET_BIT(PORT,BIT) PORT |= (1 << BIT)
 #define CLEAR_BIT(PORT,BIT) PORT &= ~(1 << BIT)
 /*
@@ -22,7 +24,7 @@
 	toRight()
 */
 
-static inline void setOutput(int portNum){ //Output
+static inline void setOutput(int portNum){	//Output
 	DDRB |= (1 << portNum);
 }
 static inline void switchOn(int portNum){	//set Port HIGH
@@ -33,10 +35,19 @@ static inline void switchOff(int portNum){	//set Port LOW
 	setOutput(portNum);
 	CLEAR_BIT(PORTB, portNum);
 }
-static inline void disconnect(int portNum){ //set Port as Input
-	DDRB &= ~(1 << portNum);
+static inline void disconnect(int portNum1, int portNum2){	//set Port as Input
+	DDRB &= ~(1 << portNum1)|~(1 << portNum2);
 }
 
+//--------------------------------------
+
+static inline void applyLED(int* array){
+	switchOn(array[0]);
+	switchOff(array[1]);
+	disconnect(array[2],array[3]);
+}
+
+//--------------------------------------
 //lets talk about it later
 /*
 static inline void pinInit(){
@@ -48,8 +59,33 @@ static inline void pinInit(){
 */
 int main(void)
 {    
+		int ledStates[12][4] =
+		//		ON,  OFF,  NOT CONNECTED,  NOT CONNECTED
+		{
+			{	P0,  P1,   P2,			   P3           }, //LED  1
+			{	P1,  P0,   P2,			   P3           }, //LED  2
+			{	P1,  P2,   P0,			   P3           }, //LED  3
+			{	P2,  P1,   P0,			   P3           }, //LED  4
+			{	P2,  P3,   P0,			   P1           }, //LED  5
+			{	P3,  P2,   P0,			   P1           }, //LED  6
+			{	P0,  P2,   P1,			   P3           }, //LED  7
+			{	P2,  P0,   P1,			   P3           }, //LED  8
+			{	P1,  P3,   P0,			   P2           }, //LED  9
+			{	P3,  P1,   P0,			   P2           }, //LED 10
+			{	P0,  P3,   P1,			   P2           }, //LED 11
+			{	P3,  P0,   P1,			   P2           }, //LED 12
+		};
 	while (1) 
     {
+		//Start Links --> Rechts
+		//12 Vorgänge
+		for(int i=0; i<LED_COUNT; i++){
+			applyLED(ledStates[i]);
+		}
+		
+		
+		//Rechts --> Links
+		//12 Vorgänge
 		
 	}
 }
