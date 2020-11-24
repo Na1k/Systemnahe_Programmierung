@@ -2,7 +2,7 @@
  * Aufgabe2.c
  *
  * Created: 24.11.2020 00:17:06
- * Author : NickK
+ * Author : Gruppe3
  */ 
 
 #include <avr/io.h>
