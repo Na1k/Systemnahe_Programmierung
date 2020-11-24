@@ -14,22 +14,11 @@
 #define P2 PORTB2	//=> DDB2
 #define P3 PORTB3	//=> DDB3
 
-#define LED_COUNT 6 //12
+#define LED_COUNT 12
 
 #define SET_BIT(PORT,BIT) PORT |= (1 << BIT)
 #define CLEAR_BIT(PORT,BIT) PORT &= ~(1 << BIT)
 
-const int LED_STATES[6][4] =
-//		ON,  OFF,  NOT CONNECTED,  NOT CONNECTED
-{
-	{	P0,  P1,   P2,			   P3           }, //LED  1
-	{	P1,  P0,   P2,			   P3           }, //LED  2
-	{	P1,  P2,   P0,			   P3           }, //LED  3
-	{	P2,  P1,   P0,			   P3           }, //LED  4
-	{	P2,  P3,   P0,			   P1           }, //LED  5
-	{	P3,  P2,   P0,			   P1           }, //LED  6
-};
-/*
 const int LED_STATES[12][4] =
 //		ON,  OFF,  NOT CONNECTED,  NOT CONNECTED
 {
@@ -46,7 +35,6 @@ const int LED_STATES[12][4] =
 	{	P0,  P3,   P1,			   P2           }, //LED 11
 	{	P3,  P0,   P1,			   P2           }, //LED 12
 };
-*/
 //END OF INCLUDE/CONST/DEFINE ---------------------------------
 
 //set Ports as Output/Input, set Ports HIGH/LOW
@@ -63,7 +51,7 @@ static inline void switchOff(const int* portNum){	//set Port LOW
 	CLEAR_BIT(PORTB, *portNum);
 }
 static inline void disconnect(const int* portNum1, const int* portNum2){	//set Port as Input
-	DDRB &= ~(1 << *portNum1)|~(1 << *portNum2);
+	DDRB &= ~(1 << *portNum1) & ~(1 << *portNum2);
 }
 
 //Apply the configuration of the array LED_STATES
@@ -101,8 +89,7 @@ static inline void pinInit(){
 }
 
 int main(void)
-{    
-	/*		
+{    	
 	while (1) 
     {
 		leftToRight();
@@ -110,20 +97,6 @@ int main(void)
 		rightToLeft();
 		_delay_ms(1000);
 	}
-	*/
-	while(1){
-		applyLED(LED_STATES[0]);
-		_delay_ms(1000);
-		applyLED(LED_STATES[1]);
-		_delay_ms(1000);
-		applyLED(LED_STATES[2]);
-		_delay_ms(1000);
-		applyLED(LED_STATES[3]);
-		_delay_ms(1000);
-		applyLED(LED_STATES[4]);
-		_delay_ms(1000);
-		applyLED(LED_STATES[5]);
-		_delay_ms(1000);
-	}
+
 }
 
