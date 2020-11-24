@@ -72,7 +72,7 @@ static inline void leftToRight(){
 }
 
 static inline void rightToLeft(){
-	for(int i=LED_COUNT; i>0; i--){
+	for(int i=(LED_COUNT-1); i>=0; i--){
 		applyLED(LED_STATES[i]);
 		_delay_ms(200);
 	}
