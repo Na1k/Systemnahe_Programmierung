@@ -28,9 +28,9 @@ Aufgabe 3:
 
 # Grundsätzliches Vorgehen Git
 1. git pull
-2. git checkout -b <branchname>
+2. git checkout -b \<branchname>
 3. Änderungen durchführen
 4. git add <files/folder>
-5. git commit -m "<Nachricht>"
-6. git push origin <branchenname>
+5. git commit -m "\<Nachricht>"
+6. git push origin \<branchenname>
 7. Pull request erstellen, prüfen und auf master mergen
