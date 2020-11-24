@@ -81,8 +81,9 @@ int main(void)
 		//12 Vorgänge
 		for(int i=0; i<LED_COUNT; i++){
 			applyLED(ledStates[i]);
+			_delay_ms(200);
 		}
-		
+		_delay_ms(1000);
 		
 		//Rechts --> Links
 		//12 Vorgänge
