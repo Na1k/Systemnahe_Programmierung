@@ -86,7 +86,7 @@ static inline void rightToLeft(){
 
 //END OF FUNCTIONS---------------------
 
-//lets talk about it later
+//lets talk about it later --> or never
 
 static inline void pinInit(){
 	CLEAR_BIT(PORTB, P0);
@@ -96,14 +96,44 @@ static inline void pinInit(){
 }
 
 int main(void)
-{    	
+{    			
+	applyLED(LED_STATES[5]);
+	_delay_ms(1000);
+	clearAll();
+	_delay_ms(500);
 	while (1) 
     {
+		/*
 		rightToLeft();
 		_delay_ms(1000);
 		leftToRight();
 		_delay_ms(1000);
+		*/
 		
+		applyLED(LED_STATES[0]);
+		_delay_ms(1000);
+		applyLED(LED_STATES[1]);
+		_delay_ms(1000);
+		applyLED(LED_STATES[2]);
+		_delay_ms(1000);
+		applyLED(LED_STATES[3]);
+		_delay_ms(1000);
+		applyLED(LED_STATES[4]);
+		_delay_ms(1000);
+		applyLED(LED_STATES[5]);
+		_delay_ms(1000);
+		applyLED(LED_STATES[6]);
+		_delay_ms(1000);
+		applyLED(LED_STATES[7]);
+		_delay_ms(1000);
+		applyLED(LED_STATES[8]);
+		_delay_ms(1000);
+		applyLED(LED_STATES[9]);
+		_delay_ms(1000);
+		applyLED(LED_STATES[10]);
+		_delay_ms(1000);
+		applyLED(LED_STATES[11]);
+		_delay_ms(1000);
 	}
 
 }
