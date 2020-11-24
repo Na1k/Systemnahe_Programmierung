@@ -26,3 +26,11 @@ Aufgabe 3:
 - Taster 1: Summer 128 Hz
 - Taster 2: Summer 440 Hz (OCR 70)
 
+#Grundsätzliches Vorgehen Git
+1. git pull
+2. git checkout -b <branchname>
+3. Änderungen durchführen
+4. git add <files/folder>
+5. git commit -m "<Nachricht>"
+6. git push origin <branchenname>
+7. Pull request erstellen, prüfen und auf master mergen
