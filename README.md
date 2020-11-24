@@ -26,7 +26,7 @@ Aufgabe 3:
 - Taster 1: Summer 128 Hz
 - Taster 2: Summer 440 Hz (OCR 70)
 
-#Grundsätzliches Vorgehen Git
+# Grundsätzliches Vorgehen Git
 1. git pull
 2. git checkout -b <branchname>
 3. Änderungen durchführen
