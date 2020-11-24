@@ -3,29 +3,29 @@ Aufgabe2.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000060  00800100  00000152  000001c6  2**0
+  0 .data         00000060  00800100  000001e4  00000258  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000152  00000000  00000000  00000074  2**1
+  1 .text         000001e4  00000000  00000000  00000074  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000226  2**0
+  2 .comment      00000030  00000000  00000000  000002b8  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000258  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000002e8  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  00000298  2**0
+  4 .debug_aranges 00000020  00000000  00000000  00000328  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000007f8  00000000  00000000  000002b8  2**0
+  5 .debug_info   00000a43  00000000  00000000  00000348  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000683  00000000  00000000  00000ab0  2**0
+  6 .debug_abbrev 000006e0  00000000  00000000  00000d8b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000022c  00000000  00000000  00001133  2**0
+  7 .debug_line   000002c7  00000000  00000000  0000146b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000034  00000000  00000000  00001360  2**2
+  8 .debug_frame  00000024  00000000  00000000  00001734  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000003a8  00000000  00000000  00001394  2**0
+  9 .debug_str    0000040c  00000000  00000000  00001758  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000000ec  00000000  00000000  0000173c  2**0
+ 10 .debug_loc    000001cc  00000000  00000000  00001b64  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000010  00000000  00000000  00001828  2**0
+ 11 .debug_ranges 00000010  00000000  00000000  00001d30  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -70,7 +70,7 @@ Disassembly of section .text:
   74:	11 e0       	ldi	r17, 0x01	; 1
   76:	a0 e0       	ldi	r26, 0x00	; 0
   78:	b1 e0       	ldi	r27, 0x01	; 1
-  7a:	e2 e5       	ldi	r30, 0x52	; 82
+  7a:	e4 ee       	ldi	r30, 0xE4	; 228
   7c:	f1 e0       	ldi	r31, 0x01	; 1
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
@@ -79,152 +79,262 @@ Disassembly of section .text:
   86:	b1 07       	cpc	r27, r17
   88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
   8a:	0e 94 4b 00 	call	0x96	; 0x96 <main>
-  8e:	0c 94 a7 00 	jmp	0x14e	; 0x14e <_exit>
+  8e:	0c 94 f0 00 	jmp	0x1e0	; 0x1e0 <_exit>
 
 00000092 <__bad_interrupt>:
   92:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000096 <main>:
-	CLEAR_BIT(PORTB, P2);
-	CLEAR_BIT(PORTB, P3);
 }
-*/
-int main(void)
-{    
-  96:	cf 93       	push	r28
-  98:	df 93       	push	r29
-  9a:	cd b7       	in	r28, 0x3d	; 61
-  9c:	de b7       	in	r29, 0x3e	; 62
-  9e:	c0 56       	subi	r28, 0x60	; 96
-  a0:	d1 09       	sbc	r29, r1
-  a2:	0f b6       	in	r0, 0x3f	; 63
-  a4:	f8 94       	cli
-  a6:	de bf       	out	0x3e, r29	; 62
-  a8:	0f be       	out	0x3f, r0	; 63
-  aa:	cd bf       	out	0x3d, r28	; 61
-		int ledStates[12][4] =
-  ac:	80 e6       	ldi	r24, 0x60	; 96
-  ae:	e0 e0       	ldi	r30, 0x00	; 0
-  b0:	f1 e0       	ldi	r31, 0x01	; 1
-  b2:	de 01       	movw	r26, r28
-  b4:	11 96       	adiw	r26, 0x01	; 1
-  b6:	01 90       	ld	r0, Z+
-  b8:	0d 92       	st	X+, r0
-  ba:	8a 95       	dec	r24
-  bc:	e1 f7       	brne	.-8      	; 0xb6 <main+0x20>
-		};
-	while (1) 
-    {
-		//Start Links --> Rechts
-		//12 Vorgänge
-		for(int i=0; i<LED_COUNT; i++){
-  be:	40 e0       	ldi	r20, 0x00	; 0
-  c0:	50 e0       	ldi	r21, 0x00	; 0
-  c2:	40 c0       	rjmp	.+128    	; 0x144 <main+0xae>
-			applyLED(ledStates[i]);
-  c4:	fa 01       	movw	r30, r20
-  c6:	ee 0f       	add	r30, r30
-  c8:	ff 1f       	adc	r31, r31
-  ca:	ee 0f       	add	r30, r30
-  cc:	ff 1f       	adc	r31, r31
-  ce:	ee 0f       	add	r30, r30
-  d0:	ff 1f       	adc	r31, r31
-  d2:	81 e0       	ldi	r24, 0x01	; 1
-  d4:	90 e0       	ldi	r25, 0x00	; 0
-  d6:	8c 0f       	add	r24, r28
-  d8:	9d 1f       	adc	r25, r29
-  da:	e8 0f       	add	r30, r24
-  dc:	f9 1f       	adc	r31, r25
-	toLeft()
-	toRight()
-*/
+
+//setup the "movement" of the lights
+
+static inline void leftToRight(){
+	for(int i=0; i<LED_COUNT; i++){
+  96:	40 e0       	ldi	r20, 0x00	; 0
+  98:	50 e0       	ldi	r21, 0x00	; 0
+  9a:	42 c0       	rjmp	.+132    	; 0x120 <main+0x8a>
+		applyLED(LED_STATES[i]);
+  9c:	fa 01       	movw	r30, r20
+  9e:	ee 0f       	add	r30, r30
+  a0:	ff 1f       	adc	r31, r31
+  a2:	ee 0f       	add	r30, r30
+  a4:	ff 1f       	adc	r31, r31
+  a6:	ee 0f       	add	r30, r30
+  a8:	ff 1f       	adc	r31, r31
+  aa:	e0 50       	subi	r30, 0x00	; 0
+  ac:	ff 4f       	sbci	r31, 0xFF	; 255
+//END OF INCLUDE/CONST/DEFINE ---------------------------------
+
+//set Ports as Output/Input, set Ports HIGH/LOW
 
 static inline void setOutput(int portNum){	//Output
 	DDRB |= (1 << portNum);
-  de:	64 b1       	in	r22, 0x04	; 4
-  e0:	81 e0       	ldi	r24, 0x01	; 1
-  e2:	90 e0       	ldi	r25, 0x00	; 0
-  e4:	9c 01       	movw	r18, r24
-  e6:	00 80       	ld	r0, Z
-  e8:	02 c0       	rjmp	.+4      	; 0xee <main+0x58>
-  ea:	22 0f       	add	r18, r18
-  ec:	33 1f       	adc	r19, r19
-  ee:	0a 94       	dec	r0
-  f0:	e2 f7       	brpl	.-8      	; 0xea <main+0x54>
-  f2:	36 2f       	mov	r19, r22
-  f4:	32 2b       	or	r19, r18
-  f6:	34 b9       	out	0x04, r19	; 4
+  ae:	64 b1       	in	r22, 0x04	; 4
+  b0:	81 e0       	ldi	r24, 0x01	; 1
+  b2:	90 e0       	ldi	r25, 0x00	; 0
+  b4:	9c 01       	movw	r18, r24
+  b6:	00 80       	ld	r0, Z
+  b8:	02 c0       	rjmp	.+4      	; 0xbe <main+0x28>
+  ba:	22 0f       	add	r18, r18
+  bc:	33 1f       	adc	r19, r19
+  be:	0a 94       	dec	r0
+  c0:	e2 f7       	brpl	.-8      	; 0xba <main+0x24>
+  c2:	36 2f       	mov	r19, r22
+  c4:	32 2b       	or	r19, r18
+  c6:	34 b9       	out	0x04, r19	; 4
 }
 static inline void switchOn(int portNum){	//set Port HIGH
 	setOutput(portNum);
 	SET_BIT(PORTB, portNum);
-  f8:	35 b1       	in	r19, 0x05	; 5
-  fa:	23 2b       	or	r18, r19
-  fc:	25 b9       	out	0x05, r18	; 5
-	toLeft()
-	toRight()
-*/
+  c8:	35 b1       	in	r19, 0x05	; 5
+  ca:	23 2b       	or	r18, r19
+  cc:	25 b9       	out	0x05, r18	; 5
+//END OF INCLUDE/CONST/DEFINE ---------------------------------
+
+//set Ports as Output/Input, set Ports HIGH/LOW
 
 static inline void setOutput(int portNum){	//Output
 	DDRB |= (1 << portNum);
-  fe:	64 b1       	in	r22, 0x04	; 4
- 100:	9c 01       	movw	r18, r24
- 102:	02 80       	ldd	r0, Z+2	; 0x02
- 104:	02 c0       	rjmp	.+4      	; 0x10a <main+0x74>
- 106:	22 0f       	add	r18, r18
- 108:	33 1f       	adc	r19, r19
- 10a:	0a 94       	dec	r0
- 10c:	e2 f7       	brpl	.-8      	; 0x106 <main+0x70>
- 10e:	36 2f       	mov	r19, r22
- 110:	32 2b       	or	r19, r18
- 112:	34 b9       	out	0x04, r19	; 4
+  ce:	64 b1       	in	r22, 0x04	; 4
+  d0:	9c 01       	movw	r18, r24
+  d2:	02 80       	ldd	r0, Z+2	; 0x02
+  d4:	02 c0       	rjmp	.+4      	; 0xda <main+0x44>
+  d6:	22 0f       	add	r18, r18
+  d8:	33 1f       	adc	r19, r19
+  da:	0a 94       	dec	r0
+  dc:	e2 f7       	brpl	.-8      	; 0xd6 <main+0x40>
+  de:	36 2f       	mov	r19, r22
+  e0:	32 2b       	or	r19, r18
+  e2:	34 b9       	out	0x04, r19	; 4
 	setOutput(portNum);
 	SET_BIT(PORTB, portNum);
 }
 static inline void switchOff(int portNum){	//set Port LOW
 	setOutput(portNum);
 	CLEAR_BIT(PORTB, portNum);
- 114:	35 b1       	in	r19, 0x05	; 5
- 116:	20 95       	com	r18
- 118:	23 23       	and	r18, r19
- 11a:	25 b9       	out	0x05, r18	; 5
+  e4:	35 b1       	in	r19, 0x05	; 5
+  e6:	20 95       	com	r18
+  e8:	23 23       	and	r18, r19
+  ea:	25 b9       	out	0x05, r18	; 5
 }
 static inline void disconnect(int portNum1, int portNum2){	//set Port as Input
 	DDRB &= ~(1 << portNum1)|~(1 << portNum2);
- 11c:	24 b1       	in	r18, 0x04	; 4
- 11e:	bc 01       	movw	r22, r24
- 120:	04 80       	ldd	r0, Z+4	; 0x04
- 122:	02 c0       	rjmp	.+4      	; 0x128 <main+0x92>
- 124:	66 0f       	add	r22, r22
- 126:	77 1f       	adc	r23, r23
- 128:	0a 94       	dec	r0
- 12a:	e2 f7       	brpl	.-8      	; 0x124 <main+0x8e>
- 12c:	06 80       	ldd	r0, Z+6	; 0x06
- 12e:	02 c0       	rjmp	.+4      	; 0x134 <main+0x9e>
- 130:	88 0f       	add	r24, r24
- 132:	99 1f       	adc	r25, r25
- 134:	0a 94       	dec	r0
- 136:	e2 f7       	brpl	.-8      	; 0x130 <main+0x9a>
- 138:	86 23       	and	r24, r22
- 13a:	80 95       	com	r24
- 13c:	82 23       	and	r24, r18
- 13e:	84 b9       	out	0x04, r24	; 4
-		};
-	while (1) 
-    {
-		//Start Links --> Rechts
-		//12 Vorgänge
-		for(int i=0; i<LED_COUNT; i++){
- 140:	4f 5f       	subi	r20, 0xFF	; 255
- 142:	5f 4f       	sbci	r21, 0xFF	; 255
- 144:	4c 30       	cpi	r20, 0x0C	; 12
- 146:	51 05       	cpc	r21, r1
- 148:	0c f4       	brge	.+2      	; 0x14c <main+0xb6>
- 14a:	bc cf       	rjmp	.-136    	; 0xc4 <main+0x2e>
- 14c:	b8 cf       	rjmp	.-144    	; 0xbe <main+0x28>
+  ec:	24 b1       	in	r18, 0x04	; 4
+  ee:	bc 01       	movw	r22, r24
+  f0:	04 80       	ldd	r0, Z+4	; 0x04
+  f2:	02 c0       	rjmp	.+4      	; 0xf8 <main+0x62>
+  f4:	66 0f       	add	r22, r22
+  f6:	77 1f       	adc	r23, r23
+  f8:	0a 94       	dec	r0
+  fa:	e2 f7       	brpl	.-8      	; 0xf4 <main+0x5e>
+  fc:	06 80       	ldd	r0, Z+6	; 0x06
+  fe:	02 c0       	rjmp	.+4      	; 0x104 <main+0x6e>
+ 100:	88 0f       	add	r24, r24
+ 102:	99 1f       	adc	r25, r25
+ 104:	0a 94       	dec	r0
+ 106:	e2 f7       	brpl	.-8      	; 0x100 <main+0x6a>
+ 108:	86 23       	and	r24, r22
+ 10a:	80 95       	com	r24
+ 10c:	82 23       	and	r24, r18
+ 10e:	84 b9       	out	0x04, r24	; 4
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
 
-0000014e <_exit>:
- 14e:	f8 94       	cli
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 110:	8f e4       	ldi	r24, 0x4F	; 79
+ 112:	93 ec       	ldi	r25, 0xC3	; 195
+ 114:	01 97       	sbiw	r24, 0x01	; 1
+ 116:	f1 f7       	brne	.-4      	; 0x114 <main+0x7e>
+ 118:	00 c0       	rjmp	.+0      	; 0x11a <main+0x84>
+ 11a:	00 00       	nop
+}
 
-00000150 <__stop_program>:
- 150:	ff cf       	rjmp	.-2      	; 0x150 <__stop_program>
+//setup the "movement" of the lights
+
+static inline void leftToRight(){
+	for(int i=0; i<LED_COUNT; i++){
+ 11c:	4f 5f       	subi	r20, 0xFF	; 255
+ 11e:	5f 4f       	sbci	r21, 0xFF	; 255
+ 120:	4c 30       	cpi	r20, 0x0C	; 12
+ 122:	51 05       	cpc	r21, r1
+ 124:	0c f4       	brge	.+2      	; 0x128 <main+0x92>
+ 126:	ba cf       	rjmp	.-140    	; 0x9c <main+0x6>
+ 128:	9f e3       	ldi	r25, 0x3F	; 63
+ 12a:	2d e0       	ldi	r18, 0x0D	; 13
+ 12c:	83 e0       	ldi	r24, 0x03	; 3
+ 12e:	91 50       	subi	r25, 0x01	; 1
+ 130:	20 40       	sbci	r18, 0x00	; 0
+ 132:	80 40       	sbci	r24, 0x00	; 0
+ 134:	e1 f7       	brne	.-8      	; 0x12e <main+0x98>
+ 136:	00 c0       	rjmp	.+0      	; 0x138 <main+0xa2>
+ 138:	00 00       	nop
+		_delay_ms(200);
+	}
+}
+
+static inline void rightToLeft(){
+	for(int i=LED_COUNT; i>0; i--){
+ 13a:	4c e0       	ldi	r20, 0x0C	; 12
+ 13c:	50 e0       	ldi	r21, 0x00	; 0
+ 13e:	42 c0       	rjmp	.+132    	; 0x1c4 <main+0x12e>
+		applyLED(LED_STATES[i]);
+ 140:	fa 01       	movw	r30, r20
+ 142:	ee 0f       	add	r30, r30
+ 144:	ff 1f       	adc	r31, r31
+ 146:	ee 0f       	add	r30, r30
+ 148:	ff 1f       	adc	r31, r31
+ 14a:	ee 0f       	add	r30, r30
+ 14c:	ff 1f       	adc	r31, r31
+ 14e:	e0 50       	subi	r30, 0x00	; 0
+ 150:	ff 4f       	sbci	r31, 0xFF	; 255
+//END OF INCLUDE/CONST/DEFINE ---------------------------------
+
+//set Ports as Output/Input, set Ports HIGH/LOW
+
+static inline void setOutput(int portNum){	//Output
+	DDRB |= (1 << portNum);
+ 152:	64 b1       	in	r22, 0x04	; 4
+ 154:	81 e0       	ldi	r24, 0x01	; 1
+ 156:	90 e0       	ldi	r25, 0x00	; 0
+ 158:	9c 01       	movw	r18, r24
+ 15a:	00 80       	ld	r0, Z
+ 15c:	02 c0       	rjmp	.+4      	; 0x162 <main+0xcc>
+ 15e:	22 0f       	add	r18, r18
+ 160:	33 1f       	adc	r19, r19
+ 162:	0a 94       	dec	r0
+ 164:	e2 f7       	brpl	.-8      	; 0x15e <main+0xc8>
+ 166:	36 2f       	mov	r19, r22
+ 168:	32 2b       	or	r19, r18
+ 16a:	34 b9       	out	0x04, r19	; 4
+}
+static inline void switchOn(int portNum){	//set Port HIGH
+	setOutput(portNum);
+	SET_BIT(PORTB, portNum);
+ 16c:	35 b1       	in	r19, 0x05	; 5
+ 16e:	23 2b       	or	r18, r19
+ 170:	25 b9       	out	0x05, r18	; 5
+//END OF INCLUDE/CONST/DEFINE ---------------------------------
+
+//set Ports as Output/Input, set Ports HIGH/LOW
+
+static inline void setOutput(int portNum){	//Output
+	DDRB |= (1 << portNum);
+ 172:	64 b1       	in	r22, 0x04	; 4
+ 174:	9c 01       	movw	r18, r24
+ 176:	02 80       	ldd	r0, Z+2	; 0x02
+ 178:	02 c0       	rjmp	.+4      	; 0x17e <main+0xe8>
+ 17a:	22 0f       	add	r18, r18
+ 17c:	33 1f       	adc	r19, r19
+ 17e:	0a 94       	dec	r0
+ 180:	e2 f7       	brpl	.-8      	; 0x17a <main+0xe4>
+ 182:	36 2f       	mov	r19, r22
+ 184:	32 2b       	or	r19, r18
+ 186:	34 b9       	out	0x04, r19	; 4
+	setOutput(portNum);
+	SET_BIT(PORTB, portNum);
+}
+static inline void switchOff(int portNum){	//set Port LOW
+	setOutput(portNum);
+	CLEAR_BIT(PORTB, portNum);
+ 188:	35 b1       	in	r19, 0x05	; 5
+ 18a:	20 95       	com	r18
+ 18c:	23 23       	and	r18, r19
+ 18e:	25 b9       	out	0x05, r18	; 5
+}
+static inline void disconnect(int portNum1, int portNum2){	//set Port as Input
+	DDRB &= ~(1 << portNum1)|~(1 << portNum2);
+ 190:	24 b1       	in	r18, 0x04	; 4
+ 192:	bc 01       	movw	r22, r24
+ 194:	04 80       	ldd	r0, Z+4	; 0x04
+ 196:	02 c0       	rjmp	.+4      	; 0x19c <main+0x106>
+ 198:	66 0f       	add	r22, r22
+ 19a:	77 1f       	adc	r23, r23
+ 19c:	0a 94       	dec	r0
+ 19e:	e2 f7       	brpl	.-8      	; 0x198 <main+0x102>
+ 1a0:	06 80       	ldd	r0, Z+6	; 0x06
+ 1a2:	02 c0       	rjmp	.+4      	; 0x1a8 <main+0x112>
+ 1a4:	88 0f       	add	r24, r24
+ 1a6:	99 1f       	adc	r25, r25
+ 1a8:	0a 94       	dec	r0
+ 1aa:	e2 f7       	brpl	.-8      	; 0x1a4 <main+0x10e>
+ 1ac:	86 23       	and	r24, r22
+ 1ae:	80 95       	com	r24
+ 1b0:	82 23       	and	r24, r18
+ 1b2:	84 b9       	out	0x04, r24	; 4
+ 1b4:	8f e4       	ldi	r24, 0x4F	; 79
+ 1b6:	93 ec       	ldi	r25, 0xC3	; 195
+ 1b8:	01 97       	sbiw	r24, 0x01	; 1
+ 1ba:	f1 f7       	brne	.-4      	; 0x1b8 <main+0x122>
+ 1bc:	00 c0       	rjmp	.+0      	; 0x1be <main+0x128>
+ 1be:	00 00       	nop
+		_delay_ms(200);
+	}
+}
+
+static inline void rightToLeft(){
+	for(int i=LED_COUNT; i>0; i--){
+ 1c0:	41 50       	subi	r20, 0x01	; 1
+ 1c2:	51 09       	sbc	r21, r1
+ 1c4:	14 16       	cp	r1, r20
+ 1c6:	15 06       	cpc	r1, r21
+ 1c8:	0c f4       	brge	.+2      	; 0x1cc <main+0x136>
+ 1ca:	ba cf       	rjmp	.-140    	; 0x140 <main+0xaa>
+ 1cc:	9f e3       	ldi	r25, 0x3F	; 63
+ 1ce:	2d e0       	ldi	r18, 0x0D	; 13
+ 1d0:	83 e0       	ldi	r24, 0x03	; 3
+ 1d2:	91 50       	subi	r25, 0x01	; 1
+ 1d4:	20 40       	sbci	r18, 0x00	; 0
+ 1d6:	80 40       	sbci	r24, 0x00	; 0
+ 1d8:	e1 f7       	brne	.-8      	; 0x1d2 <main+0x13c>
+ 1da:	00 c0       	rjmp	.+0      	; 0x1dc <main+0x146>
+ 1dc:	00 00       	nop
+ 1de:	5b cf       	rjmp	.-330    	; 0x96 <main>
+
+000001e0 <_exit>:
+ 1e0:	f8 94       	cli
+
+000001e2 <__stop_program>:
+ 1e2:	ff cf       	rjmp	.-2      	; 0x1e2 <__stop_program>

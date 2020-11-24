@@ -6,6 +6,7 @@
  */ 
 
 #include <avr/io.h>
+#include <util/delay.h>
 					//Register:
 #define P0 PORTB0	//=> DDB0
 #define P1 PORTB1	//=> DDB1
