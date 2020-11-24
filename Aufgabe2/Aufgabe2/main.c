@@ -16,13 +16,26 @@
 
 #define SET_BIT(PORT,BIT) PORT |= (1 << BIT)
 #define CLEAR_BIT(PORT,BIT) PORT &= ~(1 << BIT)
-/*
-#define ALL_OUT() DDRB |=  (1 << DDB4)|(1 << DDB3)|(1 << DDB2)
-#define ALL_IN() DDRB &=  ~(1 << DDB4)|~(1 << DDB3)|~(1 << DDB2)
 
-	toLeft()
-	toRight()
-*/
+const int LED_STATES[12][4] =
+//		ON,  OFF,  NOT CONNECTED,  NOT CONNECTED
+{
+	{	P0,  P1,   P2,			   P3           }, //LED  1
+	{	P1,  P0,   P2,			   P3           }, //LED  2
+	{	P1,  P2,   P0,			   P3           }, //LED  3
+	{	P2,  P1,   P0,			   P3           }, //LED  4
+	{	P2,  P3,   P0,			   P1           }, //LED  5
+	{	P3,  P2,   P0,			   P1           }, //LED  6
+	{	P0,  P2,   P1,			   P3           }, //LED  7
+	{	P2,  P0,   P1,			   P3           }, //LED  8
+	{	P1,  P3,   P0,			   P2           }, //LED  9
+	{	P3,  P1,   P0,			   P2           }, //LED 10
+	{	P0,  P3,   P1,			   P2           }, //LED 11
+	{	P3,  P0,   P1,			   P2           }, //LED 12
+};
+//END OF INCLUDE/CONST/DEFINE ---------------------------------
+
+//set Ports as Output/Input, set Ports HIGH/LOW
 
 static inline void setOutput(int portNum){	//Output
 	DDRB |= (1 << portNum);
@@ -39,15 +52,31 @@ static inline void disconnect(int portNum1, int portNum2){	//set Port as Input
 	DDRB &= ~(1 << portNum1)|~(1 << portNum2);
 }
 
-//--------------------------------------
+//Apply the configuration of the array LED_STATES
 
 static inline void applyLED(int* array){
 	switchOn(array[0]);
 	switchOff(array[1]);
-	disconnect(array[2],array[3]);
+	disconnect(array[2], array[3]);
 }
 
-//--------------------------------------
+//setup the "movement" of the lights
+
+static inline void leftToRight(){
+	for(int i=0; i<LED_COUNT; i++){
+		applyLED(LED_STATES[i]);
+		_delay_ms(200);
+	}
+}
+
+static inline void rightToLeft(){
+	for(int i=LED_COUNT; i>0; i--){
+		applyLED(LED_STATES[i]);
+		_delay_ms(200);
+	}
+}
+//END OF FUNCTIONS---------------------
+
 //lets talk about it later
 /*
 static inline void pinInit(){
@@ -58,36 +87,13 @@ static inline void pinInit(){
 }
 */
 int main(void)
-{    
-		int ledStates[12][4] =
-		//		ON,  OFF,  NOT CONNECTED,  NOT CONNECTED
-		{
-			{	P0,  P1,   P2,			   P3           }, //LED  1
-			{	P1,  P0,   P2,			   P3           }, //LED  2
-			{	P1,  P2,   P0,			   P3           }, //LED  3
-			{	P2,  P1,   P0,			   P3           }, //LED  4
-			{	P2,  P3,   P0,			   P1           }, //LED  5
-			{	P3,  P2,   P0,			   P1           }, //LED  6
-			{	P0,  P2,   P1,			   P3           }, //LED  7
-			{	P2,  P0,   P1,			   P3           }, //LED  8
-			{	P1,  P3,   P0,			   P2           }, //LED  9
-			{	P3,  P1,   P0,			   P2           }, //LED 10
-			{	P0,  P3,   P1,			   P2           }, //LED 11
-			{	P3,  P0,   P1,			   P2           }, //LED 12
-		};
+{    		
 	while (1) 
     {
-		//Start Links --> Rechts
-		//12 Vorgänge
-		for(int i=0; i<LED_COUNT; i++){
-			applyLED(ledStates[i]);
-			_delay_ms(200);
-		}
+		leftToRight();
 		_delay_ms(1000);
-		
-		//Rechts --> Links
-		//12 Vorgänge
-		
+		rightToLeft();
+		_delay_ms(1000);
 	}
 }
 
