@@ -3,29 +3,29 @@ Aufgabe2.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000060  00800100  000001e4  00000258  2**0
+  0 .data         00000000  00800100  00800100  000001a8  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000001e4  00000000  00000000  00000074  2**1
+  1 .text         00000154  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  000002b8  2**0
+  2 .comment      00000030  00000000  00000000  000001a8  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000002e8  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001d8  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  00000328  2**0
+  4 .debug_aranges 00000020  00000000  00000000  00000218  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000a43  00000000  00000000  00000348  2**0
+  5 .debug_info   00000ab1  00000000  00000000  00000238  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 000006e0  00000000  00000000  00000d8b  2**0
+  6 .debug_abbrev 000006c6  00000000  00000000  00000ce9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000002c7  00000000  00000000  0000146b  2**0
+  7 .debug_line   0000033b  00000000  00000000  000013af  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  00001734  2**2
+  8 .debug_frame  00000024  00000000  00000000  000016ec  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000040c  00000000  00000000  00001758  2**0
+  9 .debug_str    000003f4  00000000  00000000  00001710  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000001cc  00000000  00000000  00001b64  2**0
+ 10 .debug_loc    000000d8  00000000  00000000  00001b04  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000010  00000000  00000000  00001d30  2**0
+ 11 .debug_ranges 00000010  00000000  00000000  00001bdc  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -70,271 +70,223 @@ Disassembly of section .text:
   74:	11 e0       	ldi	r17, 0x01	; 1
   76:	a0 e0       	ldi	r26, 0x00	; 0
   78:	b1 e0       	ldi	r27, 0x01	; 1
-  7a:	e4 ee       	ldi	r30, 0xE4	; 228
+  7a:	e4 e5       	ldi	r30, 0x54	; 84
   7c:	f1 e0       	ldi	r31, 0x01	; 1
   7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
   80:	05 90       	lpm	r0, Z+
   82:	0d 92       	st	X+, r0
-  84:	a0 36       	cpi	r26, 0x60	; 96
+  84:	a0 30       	cpi	r26, 0x00	; 0
   86:	b1 07       	cpc	r27, r17
   88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
   8a:	0e 94 4b 00 	call	0x96	; 0x96 <main>
-  8e:	0c 94 f0 00 	jmp	0x1e0	; 0x1e0 <_exit>
+  8e:	0c 94 a8 00 	jmp	0x150	; 0x150 <_exit>
 
 00000092 <__bad_interrupt>:
   92:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000096 <main>:
-}
-
-//setup the "movement" of the lights
-
-static inline void leftToRight(){
-	for(int i=0; i<LED_COUNT; i++){
-  96:	40 e0       	ldi	r20, 0x00	; 0
-  98:	50 e0       	ldi	r21, 0x00	; 0
-  9a:	42 c0       	rjmp	.+132    	; 0x120 <main+0x8a>
-		applyLED(LED_STATES[i]);
-  9c:	fa 01       	movw	r30, r20
-  9e:	ee 0f       	add	r30, r30
-  a0:	ff 1f       	adc	r31, r31
-  a2:	ee 0f       	add	r30, r30
-  a4:	ff 1f       	adc	r31, r31
-  a6:	ee 0f       	add	r30, r30
-  a8:	ff 1f       	adc	r31, r31
-  aa:	e0 50       	subi	r30, 0x00	; 0
-  ac:	ff 4f       	sbci	r31, 0xFF	; 255
 //END OF INCLUDE/CONST/DEFINE ---------------------------------
 
 //set Ports as Output/Input, set Ports HIGH/LOW
 
-static inline void setOutput(int portNum){	//Output
-	DDRB |= (1 << portNum);
-  ae:	64 b1       	in	r22, 0x04	; 4
-  b0:	81 e0       	ldi	r24, 0x01	; 1
-  b2:	90 e0       	ldi	r25, 0x00	; 0
-  b4:	9c 01       	movw	r18, r24
-  b6:	00 80       	ld	r0, Z
-  b8:	02 c0       	rjmp	.+4      	; 0xbe <main+0x28>
-  ba:	22 0f       	add	r18, r18
-  bc:	33 1f       	adc	r19, r19
-  be:	0a 94       	dec	r0
-  c0:	e2 f7       	brpl	.-8      	; 0xba <main+0x24>
-  c2:	36 2f       	mov	r19, r22
-  c4:	32 2b       	or	r19, r18
-  c6:	34 b9       	out	0x04, r19	; 4
+static inline void setOutput(const int* portNum){	//Output
+	DDRB |= (1 << *portNum);
+  96:	84 b1       	in	r24, 0x04	; 4
+  98:	82 60       	ori	r24, 0x02	; 2
+  9a:	84 b9       	out	0x04, r24	; 4
 }
-static inline void switchOn(int portNum){	//set Port HIGH
+static inline void switchOn(const int* portNum){	//set Port HIGH
 	setOutput(portNum);
-	SET_BIT(PORTB, portNum);
-  c8:	35 b1       	in	r19, 0x05	; 5
-  ca:	23 2b       	or	r18, r19
-  cc:	25 b9       	out	0x05, r18	; 5
+	SET_BIT(PORTB, *portNum);
+  9c:	85 b1       	in	r24, 0x05	; 5
+  9e:	82 60       	ori	r24, 0x02	; 2
+  a0:	85 b9       	out	0x05, r24	; 5
 //END OF INCLUDE/CONST/DEFINE ---------------------------------
 
 //set Ports as Output/Input, set Ports HIGH/LOW
 
-static inline void setOutput(int portNum){	//Output
-	DDRB |= (1 << portNum);
-  ce:	64 b1       	in	r22, 0x04	; 4
-  d0:	9c 01       	movw	r18, r24
-  d2:	02 80       	ldd	r0, Z+2	; 0x02
-  d4:	02 c0       	rjmp	.+4      	; 0xda <main+0x44>
-  d6:	22 0f       	add	r18, r18
-  d8:	33 1f       	adc	r19, r19
-  da:	0a 94       	dec	r0
-  dc:	e2 f7       	brpl	.-8      	; 0xd6 <main+0x40>
-  de:	36 2f       	mov	r19, r22
-  e0:	32 2b       	or	r19, r18
-  e2:	34 b9       	out	0x04, r19	; 4
+static inline void setOutput(const int* portNum){	//Output
+	DDRB |= (1 << *portNum);
+  a2:	84 b1       	in	r24, 0x04	; 4
+  a4:	81 60       	ori	r24, 0x01	; 1
+  a6:	84 b9       	out	0x04, r24	; 4
 	setOutput(portNum);
-	SET_BIT(PORTB, portNum);
+	SET_BIT(PORTB, *portNum);
 }
-static inline void switchOff(int portNum){	//set Port LOW
+static inline void switchOff(const int* portNum){	//set Port LOW
 	setOutput(portNum);
-	CLEAR_BIT(PORTB, portNum);
-  e4:	35 b1       	in	r19, 0x05	; 5
-  e6:	20 95       	com	r18
-  e8:	23 23       	and	r18, r19
-  ea:	25 b9       	out	0x05, r18	; 5
+	CLEAR_BIT(PORTB, *portNum);
+  a8:	85 b1       	in	r24, 0x05	; 5
+  aa:	8e 7f       	andi	r24, 0xFE	; 254
+  ac:	85 b9       	out	0x05, r24	; 5
 }
-static inline void disconnect(int portNum1, int portNum2){	//set Port as Input
-	DDRB &= ~(1 << portNum1)|~(1 << portNum2);
-  ec:	24 b1       	in	r18, 0x04	; 4
-  ee:	bc 01       	movw	r22, r24
-  f0:	04 80       	ldd	r0, Z+4	; 0x04
-  f2:	02 c0       	rjmp	.+4      	; 0xf8 <main+0x62>
-  f4:	66 0f       	add	r22, r22
-  f6:	77 1f       	adc	r23, r23
-  f8:	0a 94       	dec	r0
-  fa:	e2 f7       	brpl	.-8      	; 0xf4 <main+0x5e>
-  fc:	06 80       	ldd	r0, Z+6	; 0x06
-  fe:	02 c0       	rjmp	.+4      	; 0x104 <main+0x6e>
- 100:	88 0f       	add	r24, r24
- 102:	99 1f       	adc	r25, r25
- 104:	0a 94       	dec	r0
- 106:	e2 f7       	brpl	.-8      	; 0x100 <main+0x6a>
- 108:	86 23       	and	r24, r22
- 10a:	80 95       	com	r24
- 10c:	82 23       	and	r24, r18
- 10e:	84 b9       	out	0x04, r24	; 4
+static inline void disconnect(const int* portNum1, const int* portNum2){	//set Port as Input
+	DDRB &= ~(1 << *portNum1)|~(1 << *portNum2);
+  ae:	84 b1       	in	r24, 0x04	; 4
+  b0:	84 b9       	out	0x04, r24	; 4
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
- 110:	8f e4       	ldi	r24, 0x4F	; 79
- 112:	93 ec       	ldi	r25, 0xC3	; 195
- 114:	01 97       	sbiw	r24, 0x01	; 1
- 116:	f1 f7       	brne	.-4      	; 0x114 <main+0x7e>
- 118:	00 c0       	rjmp	.+0      	; 0x11a <main+0x84>
- 11a:	00 00       	nop
-}
-
-//setup the "movement" of the lights
-
-static inline void leftToRight(){
-	for(int i=0; i<LED_COUNT; i++){
- 11c:	4f 5f       	subi	r20, 0xFF	; 255
- 11e:	5f 4f       	sbci	r21, 0xFF	; 255
- 120:	4c 30       	cpi	r20, 0x0C	; 12
- 122:	51 05       	cpc	r21, r1
- 124:	0c f4       	brge	.+2      	; 0x128 <main+0x92>
- 126:	ba cf       	rjmp	.-140    	; 0x9c <main+0x6>
- 128:	9f e3       	ldi	r25, 0x3F	; 63
- 12a:	2d e0       	ldi	r18, 0x0D	; 13
- 12c:	83 e0       	ldi	r24, 0x03	; 3
- 12e:	91 50       	subi	r25, 0x01	; 1
- 130:	20 40       	sbci	r18, 0x00	; 0
- 132:	80 40       	sbci	r24, 0x00	; 0
- 134:	e1 f7       	brne	.-8      	; 0x12e <main+0x98>
- 136:	00 c0       	rjmp	.+0      	; 0x138 <main+0xa2>
- 138:	00 00       	nop
-		_delay_ms(200);
-	}
-}
-
-static inline void rightToLeft(){
-	for(int i=LED_COUNT; i>0; i--){
- 13a:	4c e0       	ldi	r20, 0x0C	; 12
- 13c:	50 e0       	ldi	r21, 0x00	; 0
- 13e:	42 c0       	rjmp	.+132    	; 0x1c4 <main+0x12e>
-		applyLED(LED_STATES[i]);
- 140:	fa 01       	movw	r30, r20
- 142:	ee 0f       	add	r30, r30
- 144:	ff 1f       	adc	r31, r31
- 146:	ee 0f       	add	r30, r30
- 148:	ff 1f       	adc	r31, r31
- 14a:	ee 0f       	add	r30, r30
- 14c:	ff 1f       	adc	r31, r31
- 14e:	e0 50       	subi	r30, 0x00	; 0
- 150:	ff 4f       	sbci	r31, 0xFF	; 255
+  b2:	2f ef       	ldi	r18, 0xFF	; 255
+  b4:	83 ed       	ldi	r24, 0xD3	; 211
+  b6:	90 e3       	ldi	r25, 0x30	; 48
+  b8:	21 50       	subi	r18, 0x01	; 1
+  ba:	80 40       	sbci	r24, 0x00	; 0
+  bc:	90 40       	sbci	r25, 0x00	; 0
+  be:	e1 f7       	brne	.-8      	; 0xb8 <main+0x22>
+  c0:	00 c0       	rjmp	.+0      	; 0xc2 <main+0x2c>
+  c2:	00 00       	nop
 //END OF INCLUDE/CONST/DEFINE ---------------------------------
 
 //set Ports as Output/Input, set Ports HIGH/LOW
 
-static inline void setOutput(int portNum){	//Output
-	DDRB |= (1 << portNum);
- 152:	64 b1       	in	r22, 0x04	; 4
- 154:	81 e0       	ldi	r24, 0x01	; 1
- 156:	90 e0       	ldi	r25, 0x00	; 0
- 158:	9c 01       	movw	r18, r24
- 15a:	00 80       	ld	r0, Z
- 15c:	02 c0       	rjmp	.+4      	; 0x162 <main+0xcc>
- 15e:	22 0f       	add	r18, r18
- 160:	33 1f       	adc	r19, r19
- 162:	0a 94       	dec	r0
- 164:	e2 f7       	brpl	.-8      	; 0x15e <main+0xc8>
- 166:	36 2f       	mov	r19, r22
- 168:	32 2b       	or	r19, r18
- 16a:	34 b9       	out	0x04, r19	; 4
+static inline void setOutput(const int* portNum){	//Output
+	DDRB |= (1 << *portNum);
+  c4:	84 b1       	in	r24, 0x04	; 4
+  c6:	88 60       	ori	r24, 0x08	; 8
+  c8:	84 b9       	out	0x04, r24	; 4
 }
-static inline void switchOn(int portNum){	//set Port HIGH
+static inline void switchOn(const int* portNum){	//set Port HIGH
 	setOutput(portNum);
-	SET_BIT(PORTB, portNum);
- 16c:	35 b1       	in	r19, 0x05	; 5
- 16e:	23 2b       	or	r18, r19
- 170:	25 b9       	out	0x05, r18	; 5
+	SET_BIT(PORTB, *portNum);
+  ca:	85 b1       	in	r24, 0x05	; 5
+  cc:	88 60       	ori	r24, 0x08	; 8
+  ce:	85 b9       	out	0x05, r24	; 5
 //END OF INCLUDE/CONST/DEFINE ---------------------------------
 
 //set Ports as Output/Input, set Ports HIGH/LOW
 
-static inline void setOutput(int portNum){	//Output
-	DDRB |= (1 << portNum);
- 172:	64 b1       	in	r22, 0x04	; 4
- 174:	9c 01       	movw	r18, r24
- 176:	02 80       	ldd	r0, Z+2	; 0x02
- 178:	02 c0       	rjmp	.+4      	; 0x17e <main+0xe8>
- 17a:	22 0f       	add	r18, r18
- 17c:	33 1f       	adc	r19, r19
- 17e:	0a 94       	dec	r0
- 180:	e2 f7       	brpl	.-8      	; 0x17a <main+0xe4>
- 182:	36 2f       	mov	r19, r22
- 184:	32 2b       	or	r19, r18
- 186:	34 b9       	out	0x04, r19	; 4
+static inline void setOutput(const int* portNum){	//Output
+	DDRB |= (1 << *portNum);
+  d0:	84 b1       	in	r24, 0x04	; 4
+  d2:	84 60       	ori	r24, 0x04	; 4
+  d4:	84 b9       	out	0x04, r24	; 4
 	setOutput(portNum);
-	SET_BIT(PORTB, portNum);
+	SET_BIT(PORTB, *portNum);
 }
-static inline void switchOff(int portNum){	//set Port LOW
+static inline void switchOff(const int* portNum){	//set Port LOW
 	setOutput(portNum);
-	CLEAR_BIT(PORTB, portNum);
- 188:	35 b1       	in	r19, 0x05	; 5
- 18a:	20 95       	com	r18
- 18c:	23 23       	and	r18, r19
- 18e:	25 b9       	out	0x05, r18	; 5
+	CLEAR_BIT(PORTB, *portNum);
+  d6:	85 b1       	in	r24, 0x05	; 5
+  d8:	8b 7f       	andi	r24, 0xFB	; 251
+  da:	85 b9       	out	0x05, r24	; 5
 }
-static inline void disconnect(int portNum1, int portNum2){	//set Port as Input
-	DDRB &= ~(1 << portNum1)|~(1 << portNum2);
- 190:	24 b1       	in	r18, 0x04	; 4
- 192:	bc 01       	movw	r22, r24
- 194:	04 80       	ldd	r0, Z+4	; 0x04
- 196:	02 c0       	rjmp	.+4      	; 0x19c <main+0x106>
- 198:	66 0f       	add	r22, r22
- 19a:	77 1f       	adc	r23, r23
- 19c:	0a 94       	dec	r0
- 19e:	e2 f7       	brpl	.-8      	; 0x198 <main+0x102>
- 1a0:	06 80       	ldd	r0, Z+6	; 0x06
- 1a2:	02 c0       	rjmp	.+4      	; 0x1a8 <main+0x112>
- 1a4:	88 0f       	add	r24, r24
- 1a6:	99 1f       	adc	r25, r25
- 1a8:	0a 94       	dec	r0
- 1aa:	e2 f7       	brpl	.-8      	; 0x1a4 <main+0x10e>
- 1ac:	86 23       	and	r24, r22
- 1ae:	80 95       	com	r24
- 1b0:	82 23       	and	r24, r18
- 1b2:	84 b9       	out	0x04, r24	; 4
- 1b4:	8f e4       	ldi	r24, 0x4F	; 79
- 1b6:	93 ec       	ldi	r25, 0xC3	; 195
- 1b8:	01 97       	sbiw	r24, 0x01	; 1
- 1ba:	f1 f7       	brne	.-4      	; 0x1b8 <main+0x122>
- 1bc:	00 c0       	rjmp	.+0      	; 0x1be <main+0x128>
- 1be:	00 00       	nop
-		_delay_ms(200);
-	}
+static inline void disconnect(const int* portNum1, const int* portNum2){	//set Port as Input
+	DDRB &= ~(1 << *portNum1)|~(1 << *portNum2);
+  dc:	84 b1       	in	r24, 0x04	; 4
+  de:	84 b9       	out	0x04, r24	; 4
+  e0:	2f ef       	ldi	r18, 0xFF	; 255
+  e2:	83 ed       	ldi	r24, 0xD3	; 211
+  e4:	90 e3       	ldi	r25, 0x30	; 48
+  e6:	21 50       	subi	r18, 0x01	; 1
+  e8:	80 40       	sbci	r24, 0x00	; 0
+  ea:	90 40       	sbci	r25, 0x00	; 0
+  ec:	e1 f7       	brne	.-8      	; 0xe6 <main+0x50>
+  ee:	00 c0       	rjmp	.+0      	; 0xf0 <main+0x5a>
+  f0:	00 00       	nop
+//END OF INCLUDE/CONST/DEFINE ---------------------------------
+
+//set Ports as Output/Input, set Ports HIGH/LOW
+
+static inline void setOutput(const int* portNum){	//Output
+	DDRB |= (1 << *portNum);
+  f2:	84 b1       	in	r24, 0x04	; 4
+  f4:	84 60       	ori	r24, 0x04	; 4
+  f6:	84 b9       	out	0x04, r24	; 4
 }
+static inline void switchOn(const int* portNum){	//set Port HIGH
+	setOutput(portNum);
+	SET_BIT(PORTB, *portNum);
+  f8:	85 b1       	in	r24, 0x05	; 5
+  fa:	84 60       	ori	r24, 0x04	; 4
+  fc:	85 b9       	out	0x05, r24	; 5
+//END OF INCLUDE/CONST/DEFINE ---------------------------------
 
-static inline void rightToLeft(){
-	for(int i=LED_COUNT; i>0; i--){
- 1c0:	41 50       	subi	r20, 0x01	; 1
- 1c2:	51 09       	sbc	r21, r1
- 1c4:	14 16       	cp	r1, r20
- 1c6:	15 06       	cpc	r1, r21
- 1c8:	0c f4       	brge	.+2      	; 0x1cc <main+0x136>
- 1ca:	ba cf       	rjmp	.-140    	; 0x140 <main+0xaa>
- 1cc:	9f e3       	ldi	r25, 0x3F	; 63
- 1ce:	2d e0       	ldi	r18, 0x0D	; 13
- 1d0:	83 e0       	ldi	r24, 0x03	; 3
- 1d2:	91 50       	subi	r25, 0x01	; 1
- 1d4:	20 40       	sbci	r18, 0x00	; 0
- 1d6:	80 40       	sbci	r24, 0x00	; 0
- 1d8:	e1 f7       	brne	.-8      	; 0x1d2 <main+0x13c>
- 1da:	00 c0       	rjmp	.+0      	; 0x1dc <main+0x146>
- 1dc:	00 00       	nop
- 1de:	5b cf       	rjmp	.-330    	; 0x96 <main>
+//set Ports as Output/Input, set Ports HIGH/LOW
 
-000001e0 <_exit>:
- 1e0:	f8 94       	cli
+static inline void setOutput(const int* portNum){	//Output
+	DDRB |= (1 << *portNum);
+  fe:	84 b1       	in	r24, 0x04	; 4
+ 100:	81 60       	ori	r24, 0x01	; 1
+ 102:	84 b9       	out	0x04, r24	; 4
+	setOutput(portNum);
+	SET_BIT(PORTB, *portNum);
+}
+static inline void switchOff(const int* portNum){	//set Port LOW
+	setOutput(portNum);
+	CLEAR_BIT(PORTB, *portNum);
+ 104:	85 b1       	in	r24, 0x05	; 5
+ 106:	8e 7f       	andi	r24, 0xFE	; 254
+ 108:	85 b9       	out	0x05, r24	; 5
+}
+static inline void disconnect(const int* portNum1, const int* portNum2){	//set Port as Input
+	DDRB &= ~(1 << *portNum1)|~(1 << *portNum2);
+ 10a:	84 b1       	in	r24, 0x04	; 4
+ 10c:	84 b9       	out	0x04, r24	; 4
+ 10e:	2f ef       	ldi	r18, 0xFF	; 255
+ 110:	83 ed       	ldi	r24, 0xD3	; 211
+ 112:	90 e3       	ldi	r25, 0x30	; 48
+ 114:	21 50       	subi	r18, 0x01	; 1
+ 116:	80 40       	sbci	r24, 0x00	; 0
+ 118:	90 40       	sbci	r25, 0x00	; 0
+ 11a:	e1 f7       	brne	.-8      	; 0x114 <main+0x7e>
+ 11c:	00 c0       	rjmp	.+0      	; 0x11e <main+0x88>
+ 11e:	00 00       	nop
+//END OF INCLUDE/CONST/DEFINE ---------------------------------
 
-000001e2 <__stop_program>:
- 1e2:	ff cf       	rjmp	.-2      	; 0x1e2 <__stop_program>
+//set Ports as Output/Input, set Ports HIGH/LOW
+
+static inline void setOutput(const int* portNum){	//Output
+	DDRB |= (1 << *portNum);
+ 120:	84 b1       	in	r24, 0x04	; 4
+ 122:	88 60       	ori	r24, 0x08	; 8
+ 124:	84 b9       	out	0x04, r24	; 4
+}
+static inline void switchOn(const int* portNum){	//set Port HIGH
+	setOutput(portNum);
+	SET_BIT(PORTB, *portNum);
+ 126:	85 b1       	in	r24, 0x05	; 5
+ 128:	88 60       	ori	r24, 0x08	; 8
+ 12a:	85 b9       	out	0x05, r24	; 5
+//END OF INCLUDE/CONST/DEFINE ---------------------------------
+
+//set Ports as Output/Input, set Ports HIGH/LOW
+
+static inline void setOutput(const int* portNum){	//Output
+	DDRB |= (1 << *portNum);
+ 12c:	84 b1       	in	r24, 0x04	; 4
+ 12e:	81 60       	ori	r24, 0x01	; 1
+ 130:	84 b9       	out	0x04, r24	; 4
+	setOutput(portNum);
+	SET_BIT(PORTB, *portNum);
+}
+static inline void switchOff(const int* portNum){	//set Port LOW
+	setOutput(portNum);
+	CLEAR_BIT(PORTB, *portNum);
+ 132:	85 b1       	in	r24, 0x05	; 5
+ 134:	8e 7f       	andi	r24, 0xFE	; 254
+ 136:	85 b9       	out	0x05, r24	; 5
+}
+static inline void disconnect(const int* portNum1, const int* portNum2){	//set Port as Input
+	DDRB &= ~(1 << *portNum1)|~(1 << *portNum2);
+ 138:	84 b1       	in	r24, 0x04	; 4
+ 13a:	84 b9       	out	0x04, r24	; 4
+ 13c:	2f ef       	ldi	r18, 0xFF	; 255
+ 13e:	83 ed       	ldi	r24, 0xD3	; 211
+ 140:	90 e3       	ldi	r25, 0x30	; 48
+ 142:	21 50       	subi	r18, 0x01	; 1
+ 144:	80 40       	sbci	r24, 0x00	; 0
+ 146:	90 40       	sbci	r25, 0x00	; 0
+ 148:	e1 f7       	brne	.-8      	; 0x142 <main+0xac>
+ 14a:	00 c0       	rjmp	.+0      	; 0x14c <main+0xb6>
+ 14c:	00 00       	nop
+ 14e:	a3 cf       	rjmp	.-186    	; 0x96 <main>
+
+00000150 <_exit>:
+ 150:	f8 94       	cli
+
+00000152 <__stop_program>:
+ 152:	ff cf       	rjmp	.-2      	; 0x152 <__stop_program>

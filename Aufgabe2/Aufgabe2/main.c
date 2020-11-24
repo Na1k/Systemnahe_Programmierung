@@ -4,6 +4,7 @@
  * Created: 24.11.2020 00:17:06
  * Author : Gruppe3
  */ 
+#define F_CPU 16000000UL
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -38,27 +39,27 @@ const int LED_STATES[12][4] =
 
 //set Ports as Output/Input, set Ports HIGH/LOW
 
-static inline void setOutput(int portNum){	//Output
-	DDRB |= (1 << portNum);
+static inline void setOutput(const int* portNum){	//Output
+	DDRB |= (1 << *portNum);
 }
-static inline void switchOn(int portNum){	//set Port HIGH
+static inline void switchOn(const int* portNum){	//set Port HIGH
 	setOutput(portNum);
-	SET_BIT(PORTB, portNum);
+	SET_BIT(PORTB, *portNum);
 }
-static inline void switchOff(int portNum){	//set Port LOW
+static inline void switchOff(const int* portNum){	//set Port LOW
 	setOutput(portNum);
-	CLEAR_BIT(PORTB, portNum);
+	CLEAR_BIT(PORTB, *portNum);
 }
-static inline void disconnect(int portNum1, int portNum2){	//set Port as Input
-	DDRB &= ~(1 << portNum1)|~(1 << portNum2);
+static inline void disconnect(const int* portNum1, const int* portNum2){	//set Port as Input
+	DDRB &= ~(1 << *portNum1)|~(1 << *portNum2);
 }
 
 //Apply the configuration of the array LED_STATES
 
-static inline void applyLED(int* array){
-	switchOn(array[0]);
-	switchOff(array[1]);
-	disconnect(array[2], array[3]);
+static inline void applyLED(const int* array){
+	switchOn(&array[0]);
+	switchOff(&array[1]);
+	disconnect(&array[2], &array[3]);
 }
 
 //setup the "movement" of the lights
