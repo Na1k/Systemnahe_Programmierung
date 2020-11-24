@@ -63,11 +63,15 @@ static inline void applyLED(const int* array){
 }
 
 //setup the "movement" of the lights
+static inline void clearAll(){
+	DDRB &= ~(1 << P0) & ~(1 << P1) & ~(1 << P2) & ~(1 << P3);
+}
 
 static inline void leftToRight(){
 	for(int i=0; i<LED_COUNT; i++){
 		applyLED(LED_STATES[i]);
 		_delay_ms(200);
+		clearAll();
 	}
 }
 
@@ -75,8 +79,11 @@ static inline void rightToLeft(){
 	for(int i=(LED_COUNT-1); i>=0; i--){
 		applyLED(LED_STATES[i]);
 		_delay_ms(200);
+		clearAll();
 	}
 }
+
+
 //END OF FUNCTIONS---------------------
 
 //lets talk about it later
@@ -92,10 +99,11 @@ int main(void)
 {    	
 	while (1) 
     {
-		leftToRight();
-		_delay_ms(1000);
 		rightToLeft();
 		_delay_ms(1000);
+		leftToRight();
+		_delay_ms(1000);
+		
 	}
 
 }
