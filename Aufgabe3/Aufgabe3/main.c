@@ -12,9 +12,9 @@
  #include <avr/io.h>
  #include <avr/interrupt.h>
 
- #define LED1 PORTB4	//!
+ #define LED1 PORTB4
  #define LED2 PORTB3
- #define BUTTON1 PIND2	//!
+ #define BUTTON1 PIND2
  #define BUTTON2 PIND3
 
 ISR (TIMER0_COMPA_vect)  // timer0 overflow interrupt //used as oscillator
@@ -22,10 +22,13 @@ ISR (TIMER0_COMPA_vect)  // timer0 overflow interrupt //used as oscillator
 	PORTB ^= 1 << PORTB4;
 }
 
+ISR (TIMER2_COMPA_vect)  // timer2 overflow interrupt //used as oscillator
+{
+	PORTB ^= 1 << PORTB3;
+}
+
 
  ISR (INT0_vect){
-	 
-	 
 	 
 	 //Toggle Lamp on Interrupt depending on rising/falling edge
 /*
@@ -63,25 +66,28 @@ ISR (TIMER0_COMPA_vect)  // timer0 overflow interrupt //used as oscillator
 
 	//Ports B3 and B4 Output (LOW) | Ports D2 and D3 Input (HIGH, for Pull Up)
 	
-	EICRA |= (1 << ISC00) | (1 << ISC10);	//sets ISC of INT0 and INT1 to 01 (any logic change)
+	EICRA |= (1 << ISC00) | (1 << ISC10);		//sets ISC of INT0 and INT1 to 01 (any logic change)
 
-	//EIMSK |= (1 << INT0) | (1 << INT1);		//activates INT0 and INT1 channel
+	EIMSK |= (1 << INT0) | (1 << INT1);			//activates INT0 and INT1 channel
 	
 	// Set the Timer Mode to CTC
 	TCCR0A |= (1 << WGM01);
-
-	//set prescaler to 256
+	TCCR2A |= (1 << WGM21);
+	
+	//set prescaler to 256 / 256
 	TCCR0B |= (1 << CS02); 
-
-	// Set OCR value to 70
+	TCCR2B |= (1 << CS21) | (1 << CS22) ;
+	
+	// Set OCR value to 70 / 249
 	OCR0A = 0x46;
+	OCR2A = 0xF9;
 
-	//Set the ISR COMPA vect
-	TIMSK0 |= (1 << OCIE0A);    
+	//Set the ISR COMPA_vect
+	TIMSK0 |= (1 << OCIE0A);
+	TIMSK2 |= (1 << OCIE2A);    
 	
 	//enable interrupts
 	sei();
-	
  }
 
  void mainloop() {
