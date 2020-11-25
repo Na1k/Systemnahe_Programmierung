@@ -12,49 +12,51 @@
  #include <avr/io.h>
  #include <avr/interrupt.h>
 
- #define LED1 PORTB4
- #define LED2 PORTB3
+ #define BUZZER PORTB4
  #define BUTTON1 PIND2
  #define BUTTON2 PIND3
 
 ISR (TIMER0_COMPA_vect)  // timer0 overflow interrupt //used as oscillator
 {
-	PORTB ^= 1 << PORTB4;
+	PORTB ^= 1 << BUZZER; //TODO TOGGLE
 }
 
 ISR (TIMER2_COMPA_vect)  // timer2 overflow interrupt //used as oscillator
 {
-	PORTB ^= 1 << PORTB3;
+	PORTB ^= 1 << BUZZER;	//TODO TOGGLE
 }
 
-
+//Button1 interrupt
  ISR (INT0_vect){
 	 
-	 //Toggle Lamp on Interrupt depending on rising/falling edge
-/*
-	if(PIND & (1 << PIND2)){
-		CLEAR_BIT(PORTB, LED1);
+	 //Toggle Timer on Button-Interrupt depending on rising/falling edge
+
+	if(PIND & (1 << BUTTON1)){
+		CLEAR_BIT(TIMSK0, OCIE0A);
 	}
 	else{
-		SET_BIT(PORTB, LED1);
+		SET_BIT(TIMSK0, OCIE0A);
 	}
-*/
 
  }
  
  //Button2 interrupt
-/*
  ISR (INT1_vect){
-	 PORTB &= ~(1 << PORTB5);
+	 if(PIND & (1 << BUTTON2)){
+		 CLEAR_BIT(TIMSK2, OCIE2A);
+	 }
+	 else{
+		 SET_BIT(TIMSK2, OCIE2A);
+	 }
  }
-*/
+
  void init() {
 	// PB3 and PB4 as Output
 	SET_BIT(DDRB, DDB4);
 	SET_BIT(DDRB, DDB3);
-	//init LEDs as off
-	CLEAR_BIT(PORTB, LED1);
-	CLEAR_BIT(PORTB, LED2);
+	
+	//init Buzzer as off
+	CLEAR_BIT(PORTB, BUZZER);
 
 	// D2 and D3 as Input
 	CLEAR_BIT(DDRD, DDD2);
