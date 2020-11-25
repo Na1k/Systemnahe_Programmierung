@@ -23,7 +23,7 @@ Erweiterung:
 
 Aufgabe 3:
 - Mini Orgel mit 2 tastern (Tastenprellen abfangen!)
-- Taster 1: Summer 128 Hz
+- Taster 1: Summer 128 Hz (OCR 249)
 - Taster 2: Summer 440 Hz (OCR 70)
 
 # Grundsätzliches Vorgehen Git
