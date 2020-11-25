@@ -8,7 +8,7 @@
  #define CLEAR_BIT(PORT,BIT) PORT&=~(1<<BIT)
  #define TOGGLE_BIT(PORT,BIT) PORT ^=(1<<BIT)
 
- #define F_CPU 16000000UL
+// #define F_CPU 16000000UL
  #include <avr/io.h>
  #include <avr/interrupt.h>
 
@@ -17,11 +17,29 @@
  #define BUTTON1 PIND2	//!
  #define BUTTON2 PIND3
 
- ISR (INT0_vect){
+ISR (TIMER0_COMPA_vect)  // timer0 overflow interrupt //used as oscillator
+{
+	PORTB ^= 1 << PORTB4;
+}
 
-	 SET_BIT(PORTB, LED1);
- 
+
+ ISR (INT0_vect){
+	 
+	 
+	 
+	 //Toggle Lamp on Interrupt depending on rising/falling edge
+/*
+	if(PIND & (1 << PIND2)){
+		CLEAR_BIT(PORTB, LED1);
+	}
+	else{
+		SET_BIT(PORTB, LED1);
+	}
+*/
+
  }
+ 
+ //Button2 interrupt
 /*
  ISR (INT1_vect){
 	 PORTB &= ~(1 << PORTB5);
@@ -47,8 +65,23 @@
 	
 	EICRA |= (1 << ISC00) | (1 << ISC10);	//sets ISC of INT0 and INT1 to 01 (any logic change)
 
-	EIMSK |= (1 << INT0) | (1 << INT1);		//activates INT0 and INT1 channel
+	//EIMSK |= (1 << INT0) | (1 << INT1);		//activates INT0 and INT1 channel
+	
+	// Set the Timer Mode to CTC
+	TCCR0A |= (1 << WGM01);
+
+	//set prescaler to 256
+	TCCR0B |= (1 << CS02); 
+
+	// Set OCR value to 70
+	OCR0A = 0x46;
+
+	//Set the ISR COMPA vect
+	TIMSK0 |= (1 << OCIE0A);    
+	
+	//enable interrupts
 	sei();
+	
  }
 
  void mainloop() {
