@@ -52,6 +52,8 @@ static inline void switchOff(const int* portNum){	//set Port LOW
 }
 static inline void disconnect(const int* portNum1, const int* portNum2){	//set Port as Input
 	DDRB &= ~(1 << *portNum1) & ~(1 << *portNum2);
+	CLEAR_BIT(PORTB, *portNum1);
+	CLEAR_BIT(PORTB, *portNum2);
 }
 
 //Apply the configuration of the array LED_STATES
@@ -103,13 +105,13 @@ int main(void)
 	_delay_ms(500);
 	while (1) 
     {
-		/*
+		
 		rightToLeft();
 		_delay_ms(1000);
 		leftToRight();
 		_delay_ms(1000);
-		*/
 		
+		/*
 		applyLED(LED_STATES[0]);
 		_delay_ms(1000);
 		applyLED(LED_STATES[1]);
@@ -133,7 +135,7 @@ int main(void)
 		applyLED(LED_STATES[10]);
 		_delay_ms(1000);
 		applyLED(LED_STATES[11]);
-		_delay_ms(1000);
+		_delay_ms(1000);*/
 	}
 
 }
