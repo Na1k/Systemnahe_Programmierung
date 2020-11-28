@@ -13,19 +13,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .debug_aranges 00000050  00000000  00000000  00000288  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000707  00000000  00000000  000002d8  2**0
+  5 .debug_info   0000078d  00000000  00000000  000002d8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000062f  00000000  00000000  000009df  2**0
+  6 .debug_abbrev 0000067f  00000000  00000000  00000a65  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000002eb  00000000  00000000  0000100e  2**0
+  7 .debug_line   00000302  00000000  00000000  000010e4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  000000e4  00000000  00000000  000012fc  2**2
+  8 .debug_frame  000000e4  00000000  00000000  000013e8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000037f  00000000  00000000  000013e0  2**0
+  9 .debug_str    000003d0  00000000  00000000  000014cc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000013e  00000000  00000000  0000175f  2**0
+ 10 .debug_loc    0000013e  00000000  00000000  0000189c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000040  00000000  00000000  0000189d  2**0
+ 11 .debug_ranges 00000040  00000000  00000000  000019da  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -72,12 +72,12 @@ Disassembly of section .text:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000080 <__vector_14>:
-	
-	//enable interrupts
-	sei();
- }
+ */
 
- void mainloop() {
+#include "IncFile.h"
+
+ISR (TIMER0_COMPA_vect)  // timer0 overflow interrupt //used as oscillator
+{
   80:	1f 92       	push	r1
   82:	0f 92       	push	r0
   84:	0f b6       	in	r0, 0x3f	; 63
@@ -85,10 +85,12 @@ Disassembly of section .text:
   88:	11 24       	eor	r1, r1
   8a:	8f 93       	push	r24
   8c:	9f 93       	push	r25
+	TOGGLE_BIT(PORTB, BUZZER);
   8e:	95 b1       	in	r25, 0x05	; 5
   90:	80 e1       	ldi	r24, 0x10	; 16
   92:	89 27       	eor	r24, r25
   94:	85 b9       	out	0x05, r24	; 5
+}
   96:	9f 91       	pop	r25
   98:	8f 91       	pop	r24
   9a:	0f 90       	pop	r0
@@ -98,6 +100,9 @@ Disassembly of section .text:
   a2:	18 95       	reti
 
 000000a4 <__vector_7>:
+
+ISR (TIMER2_COMPA_vect)  // timer2 overflow interrupt //used as oscillator
+{
   a4:	1f 92       	push	r1
   a6:	0f 92       	push	r0
   a8:	0f b6       	in	r0, 0x3f	; 63
@@ -105,10 +110,12 @@ Disassembly of section .text:
   ac:	11 24       	eor	r1, r1
   ae:	8f 93       	push	r24
   b0:	9f 93       	push	r25
+	TOGGLE_BIT(PORTB, BUZZER);
   b2:	95 b1       	in	r25, 0x05	; 5
   b4:	80 e1       	ldi	r24, 0x10	; 16
   b6:	89 27       	eor	r24, r25
   b8:	85 b9       	out	0x05, r24	; 5
+}
   ba:	9f 91       	pop	r25
   bc:	8f 91       	pop	r24
   be:	0f 90       	pop	r0
@@ -118,6 +125,9 @@ Disassembly of section .text:
   c6:	18 95       	reti
 
 000000c8 <__vector_1>:
+
+ //Button1 interrupt
+ISR (INT0_vect){ 
   c8:	1f 92       	push	r1
   ca:	0f 92       	push	r0
   cc:	0f b6       	in	r0, 0x3f	; 63
@@ -126,19 +136,31 @@ Disassembly of section .text:
   d2:	8f 93       	push	r24
   d4:	ef 93       	push	r30
   d6:	ff 93       	push	r31
+#define BUTTON1 PIND2
+#define BUTTON2 PIND3
+
+//Toggle Timer on Button-Interrupt depending on rising/falling edge
+static inline void button1Action(){
+	if(PIND & (1 << BUTTON1)){
   d8:	4a 9b       	sbis	0x09, 2	; 9
   da:	06 c0       	rjmp	.+12     	; 0xe8 <__vector_1+0x20>
+		CLEAR_BIT(TIMSK0, OCIE0A);
   dc:	ee e6       	ldi	r30, 0x6E	; 110
   de:	f0 e0       	ldi	r31, 0x00	; 0
   e0:	80 81       	ld	r24, Z
   e2:	8d 7f       	andi	r24, 0xFD	; 253
   e4:	80 83       	st	Z, r24
   e6:	05 c0       	rjmp	.+10     	; 0xf2 <__vector_1+0x2a>
+	}
+	else{
+		SET_BIT(TIMSK0, OCIE0A);
   e8:	ee e6       	ldi	r30, 0x6E	; 110
   ea:	f0 e0       	ldi	r31, 0x00	; 0
   ec:	80 81       	ld	r24, Z
   ee:	82 60       	ori	r24, 0x02	; 2
   f0:	80 83       	st	Z, r24
+	button1Action();
+}
   f2:	ff 91       	pop	r31
   f4:	ef 91       	pop	r30
   f6:	8f 91       	pop	r24
@@ -149,6 +171,9 @@ Disassembly of section .text:
  100:	18 95       	reti
 
 00000102 <__vector_2>:
+ 
+ //Button2 interrupt
+ISR (INT1_vect){
  102:	1f 92       	push	r1
  104:	0f 92       	push	r0
  106:	0f b6       	in	r0, 0x3f	; 63
@@ -157,19 +182,29 @@ Disassembly of section .text:
  10c:	8f 93       	push	r24
  10e:	ef 93       	push	r30
  110:	ff 93       	push	r31
+	}
+}
+static inline void button2Action(){
+	if(PIND & (1 << BUTTON2)){
  112:	4b 9b       	sbis	0x09, 3	; 9
  114:	06 c0       	rjmp	.+12     	; 0x122 <__vector_2+0x20>
+		CLEAR_BIT(TIMSK2, OCIE2A);
  116:	e0 e7       	ldi	r30, 0x70	; 112
  118:	f0 e0       	ldi	r31, 0x00	; 0
  11a:	80 81       	ld	r24, Z
  11c:	8d 7f       	andi	r24, 0xFD	; 253
  11e:	80 83       	st	Z, r24
  120:	05 c0       	rjmp	.+10     	; 0x12c <__vector_2+0x2a>
+	}
+	else{
+		SET_BIT(TIMSK2, OCIE2A);
  122:	e0 e7       	ldi	r30, 0x70	; 112
  124:	f0 e0       	ldi	r31, 0x00	; 0
  126:	80 81       	ld	r24, Z
  128:	82 60       	ori	r24, 0x02	; 2
  12a:	80 83       	st	Z, r24
+	 button2Action();
+}
  12c:	ff 91       	pop	r31
  12e:	ef 91       	pop	r30
  130:	8f 91       	pop	r24
@@ -180,74 +215,122 @@ Disassembly of section .text:
  13a:	18 95       	reti
 
 0000013c <init>:
+	}
+}
+
+static inline void portSetup(){
+	// PB3 and PB4 as Output
+	SET_BIT(DDRB, DDB4);
  13c:	84 b1       	in	r24, 0x04	; 4
  13e:	80 61       	ori	r24, 0x10	; 16
  140:	84 b9       	out	0x04, r24	; 4
+	SET_BIT(DDRB, DDB3);
  142:	84 b1       	in	r24, 0x04	; 4
  144:	88 60       	ori	r24, 0x08	; 8
  146:	84 b9       	out	0x04, r24	; 4
+	
+	// init Buzzer as off
+	CLEAR_BIT(PORTB, BUZZER);
  148:	85 b1       	in	r24, 0x05	; 5
  14a:	8f 7e       	andi	r24, 0xEF	; 239
  14c:	85 b9       	out	0x05, r24	; 5
+
+	// D2 and D3 as Input
+	CLEAR_BIT(DDRD, DDD2);
  14e:	8a b1       	in	r24, 0x0a	; 10
  150:	8b 7f       	andi	r24, 0xFB	; 251
  152:	8a b9       	out	0x0a, r24	; 10
+	CLEAR_BIT(DDRD, DDD3);
  154:	8a b1       	in	r24, 0x0a	; 10
  156:	87 7f       	andi	r24, 0xF7	; 247
  158:	8a b9       	out	0x0a, r24	; 10
+
+	// Pull up for D2 and D3
+	SET_BIT(PORTD, PORTD2);
  15a:	8b b1       	in	r24, 0x0b	; 11
  15c:	84 60       	ori	r24, 0x04	; 4
  15e:	8b b9       	out	0x0b, r24	; 11
+	SET_BIT(PORTD, PORTD3);
  160:	8b b1       	in	r24, 0x0b	; 11
  162:	88 60       	ori	r24, 0x08	; 8
  164:	8b b9       	out	0x0b, r24	; 11
+}
+
+static inline void hardwareInterruptSetup(){
+	EICRA |= (1 << ISC00) | (1 << ISC10);		//sets ISC of INT0 and INT1 to 01 (any logic change)
  166:	e9 e6       	ldi	r30, 0x69	; 105
  168:	f0 e0       	ldi	r31, 0x00	; 0
  16a:	80 81       	ld	r24, Z
  16c:	85 60       	ori	r24, 0x05	; 5
  16e:	80 83       	st	Z, r24
+	EIMSK |= (1 << INT0) | (1 << INT1);			//activates INT0 and INT1 channel
  170:	8d b3       	in	r24, 0x1d	; 29
  172:	83 60       	ori	r24, 0x03	; 3
  174:	8d bb       	out	0x1d, r24	; 29
+}
+
+static inline void timerInterruptSetup(){
+	// Set the Timer Mode to CTC
+	TCCR0A |= (1 << WGM01);
  176:	84 b5       	in	r24, 0x24	; 36
  178:	82 60       	ori	r24, 0x02	; 2
  17a:	84 bd       	out	0x24, r24	; 36
+	TCCR2A |= (1 << WGM21);
  17c:	e0 eb       	ldi	r30, 0xB0	; 176
  17e:	f0 e0       	ldi	r31, 0x00	; 0
  180:	80 81       	ld	r24, Z
  182:	82 60       	ori	r24, 0x02	; 2
  184:	80 83       	st	Z, r24
+
+	//set prescaler to 256 / 256
+	TCCR0B |= (1 << CS02);
  186:	85 b5       	in	r24, 0x25	; 37
  188:	84 60       	ori	r24, 0x04	; 4
  18a:	85 bd       	out	0x25, r24	; 37
+	TCCR2B |= (1 << CS21) | (1 << CS22) ;
  18c:	e1 eb       	ldi	r30, 0xB1	; 177
  18e:	f0 e0       	ldi	r31, 0x00	; 0
  190:	80 81       	ld	r24, Z
  192:	86 60       	ori	r24, 0x06	; 6
  194:	80 83       	st	Z, r24
+
+	// Set OCR value to 70 / 249
+	OCR0A = 0x46;
  196:	86 e4       	ldi	r24, 0x46	; 70
  198:	87 bd       	out	0x27, r24	; 39
+	OCR2A = 0xF9;
  19a:	89 ef       	ldi	r24, 0xF9	; 249
  19c:	80 93 b3 00 	sts	0x00B3, r24	; 0x8000b3 <__TEXT_REGION_LENGTH__+0x7f80b3>
+
+	//Set the ISR COMPA_vect
+	TIMSK0 |= (1 << OCIE0A);
  1a0:	ee e6       	ldi	r30, 0x6E	; 110
  1a2:	f0 e0       	ldi	r31, 0x00	; 0
  1a4:	80 81       	ld	r24, Z
  1a6:	82 60       	ori	r24, 0x02	; 2
  1a8:	80 83       	st	Z, r24
+	TIMSK2 |= (1 << OCIE2A);
  1aa:	e0 e7       	ldi	r30, 0x70	; 112
  1ac:	f0 e0       	ldi	r31, 0x00	; 0
  1ae:	80 81       	ld	r24, Z
  1b0:	82 60       	ori	r24, 0x02	; 2
  1b2:	80 83       	st	Z, r24
+	portSetup();
+	hardwareInterruptSetup();
+	timerInterruptSetup();
+	
+	//enable interrupts
+	sei();
  1b4:	78 94       	sei
  1b6:	08 95       	ret
 
 000001b8 <main>:
+ISR (INT1_vect){
+	 button2Action();
+}
 
- }
-
- int main() {
-	 init();
+int main() {
+	init();
  1b8:	0e 94 9e 00 	call	0x13c	; 0x13c <init>
  1bc:	ff cf       	rjmp	.-2      	; 0x1bc <main+0x4>
 

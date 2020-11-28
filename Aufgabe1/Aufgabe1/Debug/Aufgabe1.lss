@@ -3,29 +3,29 @@ Aufgabe1.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000176  2**0
+  0 .data         00000000  00800100  00800100  00000188  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000122  00000000  00000000  00000054  2**1
+  1 .text         00000134  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000176  2**0
+  2 .comment      00000030  00000000  00000000  00000188  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001a8  2**2
+  3 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000001b8  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  000001e8  2**0
+  4 .debug_aranges 00000038  00000000  00000000  000001f8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000007aa  00000000  00000000  00000208  2**0
+  5 .debug_info   0000089d  00000000  00000000  00000230  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000068a  00000000  00000000  000009b2  2**0
+  6 .debug_abbrev 000006c4  00000000  00000000  00000acd  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000002ab  00000000  00000000  0000103c  2**0
+  7 .debug_line   0000030b  00000000  00000000  00001191  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  000012e8  2**2
+  8 .debug_frame  00000054  00000000  00000000  0000149c  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    0000038f  00000000  00000000  0000130c  2**0
+  9 .debug_str    000003d4  00000000  00000000  000014f0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000000d8  00000000  00000000  0000169b  2**0
+ 10 .debug_loc    00000120  00000000  00000000  000018c4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000010  00000000  00000000  00001773  2**0
+ 11 .debug_ranges 00000028  00000000  00000000  000019e4  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -65,114 +65,177 @@ Disassembly of section .text:
   6e:	d8 e0       	ldi	r29, 0x08	; 8
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
-  74:	0e 94 40 00 	call	0x80	; 0x80 <main>
-  78:	0c 94 8f 00 	jmp	0x11e	; 0x11e <_exit>
+  74:	0e 94 93 00 	call	0x126	; 0x126 <main>
+  78:	0c 94 98 00 	jmp	0x130	; 0x130 <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
-00000080 <main>:
-*/
+00000080 <setup>:
+	
+}
 
-int main(void)
-{
+void setup(){
 	// Data Direction Register -> B
-	DDRB |=  (1 << DDB4)|(1 << DDB3)|(1 << DDB2); // Gesetztes Bit = Ausgang
+	DDRB |=  (1 << DDB4)|(1 << DDB3)|(1 << DDB2); // set Bit = output
   80:	84 b1       	in	r24, 0x04	; 4
   82:	8c 61       	ori	r24, 0x1C	; 28
   84:	84 b9       	out	0x04, r24	; 4
-	
-	    while(1)
-	    {
-			STATE_RED();
-  86:	85 b1       	in	r24, 0x05	; 5
-  88:	8b 7f       	andi	r24, 0xFB	; 251
-  8a:	85 b9       	out	0x05, r24	; 5
-  8c:	85 b1       	in	r24, 0x05	; 5
-  8e:	87 7f       	andi	r24, 0xF7	; 247
-  90:	85 b9       	out	0x05, r24	; 5
-  92:	85 b1       	in	r24, 0x05	; 5
-  94:	8f 7e       	andi	r24, 0xEF	; 239
-  96:	85 b9       	out	0x05, r24	; 5
-  98:	85 b1       	in	r24, 0x05	; 5
-  9a:	84 60       	ori	r24, 0x04	; 4
-  9c:	85 b9       	out	0x05, r24	; 5
+  86:	08 95       	ret
+
+00000088 <trafficLight>:
+#define GREEN PORTB4
+#define YELLOW PORTB3
+#define RED PORTB2
+
+static inline void clearAll(){
+	CLEAR_BIT(PORTB, RED);
+  88:	85 b1       	in	r24, 0x05	; 5
+  8a:	8b 7f       	andi	r24, 0xFB	; 251
+  8c:	85 b9       	out	0x05, r24	; 5
+	CLEAR_BIT(PORTB, YELLOW);
+  8e:	85 b1       	in	r24, 0x05	; 5
+  90:	87 7f       	andi	r24, 0xF7	; 247
+  92:	85 b9       	out	0x05, r24	; 5
+	CLEAR_BIT(PORTB, GREEN);
+  94:	85 b1       	in	r24, 0x05	; 5
+  96:	8f 7e       	andi	r24, 0xEF	; 239
+  98:	85 b9       	out	0x05, r24	; 5
+}
+
+static inline void redState(){
+	clearAll();
+	SET_BIT(PORTB, RED);
+  9a:	85 b1       	in	r24, 0x05	; 5
+  9c:	84 60       	ori	r24, 0x04	; 4
+  9e:	85 b9       	out	0x05, r24	; 5
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  9e:	2f ef       	ldi	r18, 0xFF	; 255
-  a0:	83 ed       	ldi	r24, 0xD3	; 211
-  a2:	90 e3       	ldi	r25, 0x30	; 48
-  a4:	21 50       	subi	r18, 0x01	; 1
-  a6:	80 40       	sbci	r24, 0x00	; 0
-  a8:	90 40       	sbci	r25, 0x00	; 0
-  aa:	e1 f7       	brne	.-8      	; 0xa4 <main+0x24>
-  ac:	00 c0       	rjmp	.+0      	; 0xae <main+0x2e>
-  ae:	00 00       	nop
-			STATE_YELLOW();
-  b0:	85 b1       	in	r24, 0x05	; 5
-  b2:	88 60       	ori	r24, 0x08	; 8
-  b4:	85 b9       	out	0x05, r24	; 5
-  b6:	2f ef       	ldi	r18, 0xFF	; 255
-  b8:	89 e6       	ldi	r24, 0x69	; 105
-  ba:	98 e1       	ldi	r25, 0x18	; 24
-  bc:	21 50       	subi	r18, 0x01	; 1
-  be:	80 40       	sbci	r24, 0x00	; 0
-  c0:	90 40       	sbci	r25, 0x00	; 0
-  c2:	e1 f7       	brne	.-8      	; 0xbc <main+0x3c>
-  c4:	00 c0       	rjmp	.+0      	; 0xc6 <main+0x46>
-  c6:	00 00       	nop
-			STATE_GREEN();
-  c8:	85 b1       	in	r24, 0x05	; 5
-  ca:	8b 7f       	andi	r24, 0xFB	; 251
-  cc:	85 b9       	out	0x05, r24	; 5
-  ce:	85 b1       	in	r24, 0x05	; 5
-  d0:	87 7f       	andi	r24, 0xF7	; 247
-  d2:	85 b9       	out	0x05, r24	; 5
-  d4:	85 b1       	in	r24, 0x05	; 5
-  d6:	8f 7e       	andi	r24, 0xEF	; 239
-  d8:	85 b9       	out	0x05, r24	; 5
-  da:	85 b1       	in	r24, 0x05	; 5
-  dc:	80 61       	ori	r24, 0x10	; 16
-  de:	85 b9       	out	0x05, r24	; 5
-  e0:	2f ef       	ldi	r18, 0xFF	; 255
-  e2:	83 ed       	ldi	r24, 0xD3	; 211
-  e4:	90 e3       	ldi	r25, 0x30	; 48
-  e6:	21 50       	subi	r18, 0x01	; 1
-  e8:	80 40       	sbci	r24, 0x00	; 0
-  ea:	90 40       	sbci	r25, 0x00	; 0
-  ec:	e1 f7       	brne	.-8      	; 0xe6 <main+0x66>
-  ee:	00 c0       	rjmp	.+0      	; 0xf0 <main+0x70>
-  f0:	00 00       	nop
-  f2:	85 b1       	in	r24, 0x05	; 5
-  f4:	8b 7f       	andi	r24, 0xFB	; 251
-  f6:	85 b9       	out	0x05, r24	; 5
-  f8:	85 b1       	in	r24, 0x05	; 5
-  fa:	87 7f       	andi	r24, 0xF7	; 247
-  fc:	85 b9       	out	0x05, r24	; 5
-  fe:	85 b1       	in	r24, 0x05	; 5
- 100:	8f 7e       	andi	r24, 0xEF	; 239
- 102:	85 b9       	out	0x05, r24	; 5
-			STATE_YELLOW();
- 104:	85 b1       	in	r24, 0x05	; 5
- 106:	88 60       	ori	r24, 0x08	; 8
- 108:	85 b9       	out	0x05, r24	; 5
- 10a:	2f ef       	ldi	r18, 0xFF	; 255
- 10c:	89 e6       	ldi	r24, 0x69	; 105
- 10e:	98 e1       	ldi	r25, 0x18	; 24
- 110:	21 50       	subi	r18, 0x01	; 1
- 112:	80 40       	sbci	r24, 0x00	; 0
- 114:	90 40       	sbci	r25, 0x00	; 0
- 116:	e1 f7       	brne	.-8      	; 0x110 <main+0x90>
- 118:	00 c0       	rjmp	.+0      	; 0x11a <main+0x9a>
- 11a:	00 00       	nop
- 11c:	b4 cf       	rjmp	.-152    	; 0x86 <main+0x6>
+  a0:	2f ef       	ldi	r18, 0xFF	; 255
+  a2:	83 ed       	ldi	r24, 0xD3	; 211
+  a4:	90 e3       	ldi	r25, 0x30	; 48
+  a6:	21 50       	subi	r18, 0x01	; 1
+  a8:	80 40       	sbci	r24, 0x00	; 0
+  aa:	90 40       	sbci	r25, 0x00	; 0
+  ac:	e1 f7       	brne	.-8      	; 0xa6 <trafficLight+0x1e>
+  ae:	00 c0       	rjmp	.+0      	; 0xb0 <trafficLight+0x28>
+  b0:	00 00       	nop
+	_delay_ms(1000);
+}
 
-0000011e <_exit>:
- 11e:	f8 94       	cli
+static inline void yellowState(){
+	SET_BIT(PORTB, YELLOW);
+  b2:	85 b1       	in	r24, 0x05	; 5
+  b4:	88 60       	ori	r24, 0x08	; 8
+  b6:	85 b9       	out	0x05, r24	; 5
+  b8:	2f ef       	ldi	r18, 0xFF	; 255
+  ba:	89 e6       	ldi	r24, 0x69	; 105
+  bc:	98 e1       	ldi	r25, 0x18	; 24
+  be:	21 50       	subi	r18, 0x01	; 1
+  c0:	80 40       	sbci	r24, 0x00	; 0
+  c2:	90 40       	sbci	r25, 0x00	; 0
+  c4:	e1 f7       	brne	.-8      	; 0xbe <trafficLight+0x36>
+  c6:	00 c0       	rjmp	.+0      	; 0xc8 <trafficLight+0x40>
+  c8:	00 00       	nop
+#define GREEN PORTB4
+#define YELLOW PORTB3
+#define RED PORTB2
 
-00000120 <__stop_program>:
- 120:	ff cf       	rjmp	.-2      	; 0x120 <__stop_program>
+static inline void clearAll(){
+	CLEAR_BIT(PORTB, RED);
+  ca:	85 b1       	in	r24, 0x05	; 5
+  cc:	8b 7f       	andi	r24, 0xFB	; 251
+  ce:	85 b9       	out	0x05, r24	; 5
+	CLEAR_BIT(PORTB, YELLOW);
+  d0:	85 b1       	in	r24, 0x05	; 5
+  d2:	87 7f       	andi	r24, 0xF7	; 247
+  d4:	85 b9       	out	0x05, r24	; 5
+	CLEAR_BIT(PORTB, GREEN);
+  d6:	85 b1       	in	r24, 0x05	; 5
+  d8:	8f 7e       	andi	r24, 0xEF	; 239
+  da:	85 b9       	out	0x05, r24	; 5
+	_delay_ms(500);
+}
+
+static inline void greenState(){
+	clearAll();
+	SET_BIT(PORTB, GREEN);
+  dc:	85 b1       	in	r24, 0x05	; 5
+  de:	80 61       	ori	r24, 0x10	; 16
+  e0:	85 b9       	out	0x05, r24	; 5
+  e2:	2f ef       	ldi	r18, 0xFF	; 255
+  e4:	83 ed       	ldi	r24, 0xD3	; 211
+  e6:	90 e3       	ldi	r25, 0x30	; 48
+  e8:	21 50       	subi	r18, 0x01	; 1
+  ea:	80 40       	sbci	r24, 0x00	; 0
+  ec:	90 40       	sbci	r25, 0x00	; 0
+  ee:	e1 f7       	brne	.-8      	; 0xe8 <trafficLight+0x60>
+  f0:	00 c0       	rjmp	.+0      	; 0xf2 <trafficLight+0x6a>
+  f2:	00 00       	nop
+#define GREEN PORTB4
+#define YELLOW PORTB3
+#define RED PORTB2
+
+static inline void clearAll(){
+	CLEAR_BIT(PORTB, RED);
+  f4:	85 b1       	in	r24, 0x05	; 5
+  f6:	8b 7f       	andi	r24, 0xFB	; 251
+  f8:	85 b9       	out	0x05, r24	; 5
+	CLEAR_BIT(PORTB, YELLOW);
+  fa:	85 b1       	in	r24, 0x05	; 5
+  fc:	87 7f       	andi	r24, 0xF7	; 247
+  fe:	85 b9       	out	0x05, r24	; 5
+	CLEAR_BIT(PORTB, GREEN);
+ 100:	85 b1       	in	r24, 0x05	; 5
+ 102:	8f 7e       	andi	r24, 0xEF	; 239
+ 104:	85 b9       	out	0x05, r24	; 5
+	SET_BIT(PORTB, RED);
+	_delay_ms(1000);
+}
+
+static inline void yellowState(){
+	SET_BIT(PORTB, YELLOW);
+ 106:	85 b1       	in	r24, 0x05	; 5
+ 108:	88 60       	ori	r24, 0x08	; 8
+ 10a:	85 b9       	out	0x05, r24	; 5
+ 10c:	2f ef       	ldi	r18, 0xFF	; 255
+ 10e:	89 e6       	ldi	r24, 0x69	; 105
+ 110:	98 e1       	ldi	r25, 0x18	; 24
+ 112:	21 50       	subi	r18, 0x01	; 1
+ 114:	80 40       	sbci	r24, 0x00	; 0
+ 116:	90 40       	sbci	r25, 0x00	; 0
+ 118:	e1 f7       	brne	.-8      	; 0x112 <trafficLight+0x8a>
+ 11a:	00 c0       	rjmp	.+0      	; 0x11c <trafficLight+0x94>
+ 11c:	00 00       	nop
+ 11e:	08 95       	ret
+
+00000120 <mainloop>:
+}
+
+void mainloop(){
+	trafficLight();
+ 120:	0e 94 44 00 	call	0x88	; 0x88 <trafficLight>
+ 124:	08 95       	ret
+
+00000126 <main>:
+
+#include "IncFile.h"
+
+int main(void)
+{
+	setup();
+ 126:	0e 94 40 00 	call	0x80	; 0x80 <setup>
+	while(1){
+		mainloop();	
+ 12a:	0e 94 90 00 	call	0x120	; 0x120 <mainloop>
+ 12e:	fd cf       	rjmp	.-6      	; 0x12a <main+0x4>
+
+00000130 <_exit>:
+ 130:	f8 94       	cli
+
+00000132 <__stop_program>:
+ 132:	ff cf       	rjmp	.-2      	; 0x132 <__stop_program>
