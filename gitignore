@@ -1,2 +1,3 @@
 *.atsou
-*/Debug
+*/Debug/
+*/.vs/
