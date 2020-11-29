@@ -17,14 +17,12 @@ int main(void)
 
 void mainloop(){
 	rightToLeft();
-	_delay_ms(1000);
 	leftToRight();
-	_delay_ms(1000);
 }
 
 //setup the "movement" of the lights
 void leftToRight(){
-	for(int i=(START_LED-1); i<LAST_LED; i++){
+	for(int i=(START_LED-1); i<LAST_LED-1; i++){
 		applyLED(LED_STATES[i]);
 		_delay_ms(200);
 		clearAll();
@@ -32,7 +30,7 @@ void leftToRight(){
 }
 
 void rightToLeft(){
-	for(int i=(LAST_LED-1); i>=(START_LED-1); i--){
+	for(int i=(LAST_LED-1); i>=(START_LED); i--){
 		applyLED(LED_STATES[i]);
 		_delay_ms(200);
 		clearAll();
