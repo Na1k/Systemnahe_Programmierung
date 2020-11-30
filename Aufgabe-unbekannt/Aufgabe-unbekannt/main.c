@@ -31,7 +31,7 @@ static inline void sendChar(uint8_t c){
 	UDR0 = c;
 }
 
-static inline void sendStringNewLine(uint8_t message){
+static inline void sendStringNewLine(uint8_t *message){
 	while(*message){
 		sendChar(*message++);
 	}
