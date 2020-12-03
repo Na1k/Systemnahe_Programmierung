@@ -7,12 +7,8 @@
 
 #include "Serial.h"
 
-void echo(uint8_t c){
-	sendChar(c);
-}
-
-void setup(mypointer_t pointer){
-	meinefunktion = pointer;
+void setupSerialCommunication(callbackPointer_t messageReceivedCallback){
+	receiverCallback = messageReceivedCallback;
 	/*Set baud rate */
 	UBRR0H = (MYUBRR >> 8);
 	UBRR0L = MYUBRR;
@@ -25,13 +21,12 @@ void setup(mypointer_t pointer){
 	
 	_delay_ms(5000);		//delay to open the serial monitor
 	
-	sendStringNewLine((uint8_t*)"Hallo Welt!");
-	sendStringNewLine((uint8_t*)"Hallo Welt!");
+	sendStringNewLine((uint8_t*)"Initialized!");
 }
 
 ISR (USART_RX_vect)
 {
-	meinefunktion(UDR0);
+	receiverCallback(UDR0);
 	//	UDR0 = 'a';
 	//	ReceivedChar = UDR0;                       // Read data from the RX buffer
 	//	while ( !(UCSR0A & (1 << UDRE0)));

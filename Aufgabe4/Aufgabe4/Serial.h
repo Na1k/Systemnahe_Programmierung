@@ -6,8 +6,8 @@
  */ 
 
 
-#ifndef INCFILE1_H_
-#define INCFILE1_H_
+#ifndef SERIAL_H_
+#define SERIAL_H_
 
 #define F_CPU 16000000UL
 #include <avr/io.h>
@@ -20,8 +20,8 @@
 #define BAUD 9600
 #define MYUBRR FOSC/16/BAUD -1
 
-typedef void (*mypointer_t)(uint8_t);
-volatile mypointer_t meinefunktion;
+typedef void (*callbackPointer_t)(uint8_t);
+volatile callbackPointer_t receiverCallback;
 
 // static inline Functions
 
@@ -49,8 +49,7 @@ static inline void sendString(uint8_t* message){
 }
 
 // Forward Declaration
-void echo(uint8_t c);
-void setup(mypointer_t pointer);
+void setupSerialCommunication(callbackPointer_t messageReceivedCallback);
 
 
-#endif /* INCFILE1_H_ */
+#endif /* SERIAL_H_ */

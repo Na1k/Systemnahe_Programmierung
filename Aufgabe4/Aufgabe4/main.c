@@ -5,11 +5,11 @@
  * Author : Gruppe3
  */ 
 
-#include "Serial.h"
+#include "SerialEcho.h"
 
 int main( void )
 {
-	setup(echo);
+	setupEcho();
 	while(1)
 	{
 		;                                      // Main loop
