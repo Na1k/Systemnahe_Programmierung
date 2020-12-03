@@ -16,9 +16,8 @@
 
 #include <avr/interrupt.h>
 
-#define FOSC 16000000                       // Clock Speed
 #define BAUD 9600
-#define MYUBRR FOSC/16/BAUD -1
+#define MYUBRR F_CPU/16/BAUD -1
 
 typedef void (*callbackPointer_t)(uint8_t);
 volatile callbackPointer_t receiverCallback;
