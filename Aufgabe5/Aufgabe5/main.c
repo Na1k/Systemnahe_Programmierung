@@ -4,7 +4,7 @@
  * Created: 03.12.2020 18:44:51
  * Author : Gruppe3
  */ 
-#include "Serial.h"
+#include "SerialEcho.h"
 #include <stdlib.h>
 //Serial Monitor: Potti1: xxx Potti2: xxx
 
@@ -16,7 +16,6 @@ int main(void)
 	setupWithoutEcho();
     ADMUX = 0;                // use ADC0
     ADMUX |= (1 << REFS0);    // use AVcc as the reference
-    //ADMUX |= (1 << ADLAR);    // Right adjust for 8 bit resolution
 
     ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // 128 prescale for 16Mhz
     ADCSRA |= (1 << ADATE);   // Set ADC Auto Trigger Enable
@@ -27,15 +26,22 @@ int main(void)
     ADCSRA |= (1 << ADIE);    // Enable Interrupts
 
     ADCSRA |= (1 << ADSC);    // Start the ADC conversion
-
+	
+	sei();
+	
 	while (1) 
     {
 		uint16_t ADCvalue = ADCHvalue << 8;
 		ADCvalue += ADCLvalue;
 		char buffer[5];
 		itoa(ADCvalue, buffer, 10);
-		sendStringNewLine((uint8_t*)buffer);
-    }
+		
+		//output
+		sendString((uint8_t*)"Potti1: ");
+		sendString((uint8_t*)buffer);
+		sendString((uint8_t*)" - Potti2: ");
+		sendStringNewLine((uint8_t*)"Platzhalter");
+	}
 }
 
 ISR(ADC_vect)
