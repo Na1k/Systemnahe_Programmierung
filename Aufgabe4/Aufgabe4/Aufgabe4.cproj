@@ -120,7 +120,7 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CFile1.c">
+    <Compile Include="Serial.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Serial.h">
