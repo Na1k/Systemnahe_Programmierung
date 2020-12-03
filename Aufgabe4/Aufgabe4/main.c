@@ -1,7 +1,7 @@
 /*
- * sitzung3-usart.c
+ * Aufgabe4.c
  *
- * Created: 30.11.2020 11:43:26
+ * Created: 03.12.2020 17:01:25
  * Author : Gruppe3
  */ 
 
@@ -31,41 +31,46 @@ static inline void sendChar(uint8_t c){
 	UDR0 = c;
 }
 
-static inline void sendStringNewLine(uint8_t *message){
-	while(*message){
-		sendChar(*message++);
-	}
+static inline void lineBreak(){
 	sendChar('\r');
 	sendChar('\n');
 }
 
-static inline void sendString(uint8_t message){
+static inline void sendStringNewLine(uint8_t* message){
+	while(*message){
+		sendChar(*message++);
+	}
+	lineBreak();
+}
+
+static inline void sendString(uint8_t* message){
 	while(*message){
 		sendChar(*message++);
 	}
 }
+
+
 
 void callback(uint8_t c){
 	sendChar(c);
 }
 
 void setup(mypointer_t pointer){
-	meinefunktion = callback;
+	meinefunktion = pointer;
 	/*Set baud rate */
-	UBRR0H = MYUBRR >> 8;
+	UBRR0H = (MYUBRR >> 8);
 	UBRR0L = MYUBRR;
 	
 	UCSR0B |= (1 << RXEN0) | (1 << TXEN0);      // Enable receiver and transmitter
-	//UCSR0B |= (1 << RXCIE0);                    // Enable receiver interrupt
 	UCSR0C |= (1 << UCSZ01) | (1 << UCSZ00);    // Set frame: 8data, 1stp
-
-	//sei();                                      // Lets not forget to enable interrupts =P
-	_delay_ms(5000);
-	//char text[]={'H','a','l','l','o',' ','W','e','l','t','!','\0'};
-	char text[] = "Hallo Welt!";
-	sendString(text);
-	//sendEnter();
-	sendString(text);
+	
+	UCSR0B |= (1 << RXCIE0);	// Enable receiver Interrupt
+	sei();						// Enable Interrupts globally
+	
+	_delay_ms(5000);		//delay to open the serial monitor
+	
+	sendStringNewLine((uint8_t*)"Hallo Welt!");
+	sendStringNewLine((uint8_t*)"Hallo Welt!");
 }
 
 int main( void )
@@ -86,4 +91,5 @@ ISR (USART_RX_vect)
 //	while ( !(UCSR0A & (1 << UDRE0)));
 //	UDR0 = ReceivedChar;                       // Write the data to the TX buffer
 }
+
 
