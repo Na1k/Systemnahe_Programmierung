@@ -12,9 +12,9 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>Aufgabe-unbekannt</AssemblyName>
-    <Name>Aufgabe-unbekannt</Name>
-    <RootNamespace>Aufgabe-unbekannt</RootNamespace>
+    <AssemblyName>Aufgabe4</AssemblyName>
+    <Name>Aufgabe4</Name>
+    <RootNamespace>Aufgabe4</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -120,6 +120,18 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="SerialEcho.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SerialEcho.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Serial.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Serial.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
