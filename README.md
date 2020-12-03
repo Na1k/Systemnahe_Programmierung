@@ -26,6 +26,23 @@ Aufgabe 3:
 - Taster 1: Summer 128 Hz (OCR 249)
 - Taster 2: Summer 440 Hz (OCR 70)
 
+Aufgabe 4:
+- Programmieren einer Seriellen Schnittstelle
+- Auslagern auf dafür erstellte .c und .h Files
+
+Aufgabe 5:
+- Serielle Schnittstelle mit 2 Pottis
+- beide Pottis werden unabhängig voneinander gesteuert
+- Ausgabe auf seriellem Monitor: Potti1: xxx Potti2: xxx
+
+Aufgabe 6:
+- via Trim Potti LED trimmen
+- PWM-Wert über Potti einlesen
+
+Alternative:
+- eigene Aufgabe vorschlagen (mit Joachim Wagner kommunizieren)
+
+
 # Grundsätzliches Vorgehen Git
 1. git pull
 2. git checkout -b \<branchname>
