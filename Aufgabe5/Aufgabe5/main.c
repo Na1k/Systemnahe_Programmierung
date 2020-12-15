@@ -8,8 +8,11 @@
 #include <stdlib.h>
 //Serial Monitor: Potti1: xxx Potti2: xxx
 
-volatile uint8_t ADCHvalue;    // Global variable, set to volatile if used with ISR
-volatile uint8_t ADCLvalue;
+volatile uint8_t Pot1ADCHvalue;    // Global variable, set to volatile if used with ISR
+volatile uint8_t Pot1ADCLvalue;
+
+volatile uint8_t Pot2ADCHvalue;    
+volatile uint8_t Pot2ADCLvalue;
 
 int main(void)
 {
@@ -29,29 +32,48 @@ int main(void)
 	
 	sei();
 	
+	char bufferPotti1[5];
+	char bufferPotti2[5];
+	
+	uint16_t ADC1Tmp = 0;
+	uint16_t ADC2Tmp = 0;
 	while (1) 
     {
-		uint16_t ADCvalue = ADCHvalue << 8;
-		ADCvalue += ADCLvalue;
-		char buffer[5];
-		itoa(ADCvalue, buffer, 10);
+		uint16_t ADCvalue = Pot1ADCHvalue << 8;
+		ADCvalue += Pot1ADCLvalue;
+		itoa(ADCvalue, bufferPotti1, 10);
+		
+		uint16_t ADCvalue2 = Pot2ADCHvalue << 8;
+		ADCvalue2 += Pot2ADCLvalue;
+		itoa(ADCvalue2, bufferPotti2, 10);
 		
 		//output
-		sendString((uint8_t*)"Potti1: ");
-		sendString((uint8_t*)buffer);
-		sendString((uint8_t*)" - Potti2: ");
-		sendStringNewLine((uint8_t*)"Platzhalter");
+		if(abs(ADC1Tmp - ADCvalue) > 2 || abs(ADC2Tmp - ADCvalue2) > 2)
+		{
+			sendString((uint8_t*)"Potti1: ");
+			sendString((uint8_t*)bufferPotti1);
+			sendString((uint8_t*)" - Potti2: ");
+			sendStringNewLine((uint8_t*)bufferPotti2);
+			ADC1Tmp = ADCvalue;
+			ADC2Tmp = ADCvalue2;
+		}
 	}
 }
 
 ISR(ADC_vect)
 {
-	ADCLvalue = ADCL;
-	ADCHvalue = ADCH;          // only need to read the high value for 8 bit
+	//Important to toggle before retrieval of ADC values
+	ADMUX ^= (1 << MUX0);	//toggles between ADC0 and ADC1
 	// REMEMBER: once ADCH is read the ADC will update
-	
-	// if you need the value of ADCH in multiple spots, read it into a register
-	// and use the register and not the ADCH
-
+	if(ADMUX & (1 << MUX0))
+	{
+		Pot2ADCLvalue = ADCL;
+		Pot2ADCHvalue = ADCH;
+	}
+	else
+	{
+		Pot1ADCLvalue = ADCL;
+		Pot1ADCHvalue = ADCH;
+	}
 }
 
