@@ -15,7 +15,7 @@ void setupSerialCommunication(callbackPointer_t messageReceivedCallback){
 	UCSR0B |= (1 << RXCIE0);	// Enable receiver Interrupt
 	sei();						// Enable Interrupts globally
 	
-	_delay_ms(5000);		//delay to open the serial monitor
+	_delay_ms(1000);		//delay to open the serial monitor
 	
 	sendStringNewLine((uint8_t*)"Initialized!");
 }
