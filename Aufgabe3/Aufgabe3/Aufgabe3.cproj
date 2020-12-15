@@ -12,9 +12,9 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>Aufgabe2</AssemblyName>
-    <Name>Aufgabe2</Name>
-    <RootNamespace>Aufgabe2</RootNamespace>
+    <AssemblyName>Aufgabe3</AssemblyName>
+    <Name>Aufgabe3</Name>
+    <RootNamespace>Aufgabe3</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -120,7 +120,7 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="IncFile1.h">
+    <Compile Include="IncFile.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">

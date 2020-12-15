@@ -1,5 +1,5 @@
 /*
- * IncFile1.h
+ * IncFile.h
  *
  * Created: 23.11.2020 23:18:55
  *  Author: Gruppe3
@@ -15,35 +15,38 @@
 
 #define SET_BIT(PORT,BIT) PORT |= (1 << BIT)
 #define CLEAR_BIT(PORT,BIT) PORT &= ~(1 << BIT)
-//#define TOGGLE_BIT(PORT,BIT) PORT ^=(1<<BIT)
 
 #define GREEN PORTB4
 #define YELLOW PORTB3
 #define RED PORTB2
 
-#define CLEAR_ALL()\
-	CLEAR_BIT(PORTB, RED);\
-	CLEAR_BIT(PORTB, YELLOW);\
-	CLEAR_BIT(PORTB, GREEN);\
+static inline void clearAll(){
+	CLEAR_BIT(PORTB, RED);
+	CLEAR_BIT(PORTB, YELLOW);
+	CLEAR_BIT(PORTB, GREEN);
+}
 
+static inline void redState(){
+	clearAll();
+	SET_BIT(PORTB, RED);
+	_delay_ms(1000);
+}
 
-#define STATE_RED()\
-	CLEAR_ALL();\
-	SET_BIT(PORTB, RED);\
-	_delay_ms(1000);\
+static inline void yellowState(){
+	SET_BIT(PORTB, YELLOW);
+	_delay_ms(500);
+}
 
+static inline void greenState(){
+	clearAll();
+	SET_BIT(PORTB, GREEN);
+	_delay_ms(1000);
+	clearAll();
+}
 
-#define STATE_YELLOW()\
-	SET_BIT(PORTB, YELLOW);\
-	_delay_ms(500);\
-
-
-#define STATE_GREEN()\
-	CLEAR_ALL();\
-	SET_BIT(PORTB, GREEN);\
-	_delay_ms(1000);\
-	CLEAR_ALL();\
-
-
+//function-prototypes
+void setup();
+void mainloop();
+void trafficLight();
 
 #endif /* INCFILE1_H_ */

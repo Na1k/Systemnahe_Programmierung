@@ -2,17 +2,44 @@
  * Aufgabe2.c
  *
  * Created: 24.11.2020 00:17:06
- * Author : NickK
- */ 
-
-#include <avr/io.h>
-
+ * Author : Gruppe3
+ */
+#include "IncFile1.h" 
 
 int main(void)
 {
-    /* Replace with your application code */
-    while (1) 
+	while (1) 
     {
-    }
+		mainloop();
+	}
 }
 
+
+void mainloop(){
+	rightToLeft();
+	leftToRight();
+}
+
+//setup the "movement" of the lights
+void leftToRight(){
+	for(int i=(START_LED-1); i<LAST_LED-1; i++){
+		applyLED(LED_STATES[i]);
+		_delay_ms(200);
+		clearAll();
+	}
+}
+
+void rightToLeft(){
+	for(int i=(LAST_LED-1); i>=(START_LED); i--){
+		applyLED(LED_STATES[i]);
+		_delay_ms(200);
+		clearAll();
+	}
+}
+
+//Apply the configuration of the array LED_STATES
+void applyLED(const int* array){
+	switchOn(&array[0]);
+	switchOff(&array[1]);
+	disconnect(&array[2], &array[3]);
+}
