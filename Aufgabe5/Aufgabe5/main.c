@@ -29,8 +29,7 @@ int main(void)
 }
 
 void init(){
-	callbackPointer_t noEcho = *void;
-	setupSerialCommunication(noEcho);
+	setupWithoutEcho();
 	ADMUX = 0;                // use ADC0
 	ADMUX |= (1 << REFS0);    // use AVcc as the reference
 
