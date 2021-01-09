@@ -11,17 +11,23 @@
 #include <stdint.h>                     // needed for uint8_t
 #include <util/delay.h>
 #include <stdlib.h>
-
 #include <avr/interrupt.h>
+
+#include "IncFile.h"
 
 volatile uint8_t ADCHvalue;    // Global variable, set to volatile if used with ISR
 
-void dimLed(uint8_t brightness){
-	OCR0A = brightness;
-}
-
 int main(void)
 {
+	init();
+	
+    while (1) 
+    {
+		mainloop();
+    }
+}
+
+void init(){
 	DDRD |= (1 << DDD6);		// PD6 is now an output
 
 	OCR0A = 128;				// set PWM for 50% duty cycle
@@ -48,13 +54,12 @@ int main(void)
 
 	ADCSRA |= (1 << ADSC);    // Start the ADC conversion
 	
-	sei();		//enable interrupts (global)
+	sei();		//enable interrupts (global)	
+}
 
-    while (1) 
-    {
-		uint8_t ADCvalue = ADCHvalue;
-		dimLed(ADCvalue); 
-    }
+void mainloop(){
+	uint8_t ADCvalue = ADCHvalue;
+	dimLed(ADCvalue);
 }
 
 ISR(ADC_vect)
