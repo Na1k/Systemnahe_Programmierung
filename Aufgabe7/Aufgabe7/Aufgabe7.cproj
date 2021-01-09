@@ -12,9 +12,9 @@
     <OutputFileName>$(MSBuildProjectName)</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
-    <AssemblyName>Aufgabe5</AssemblyName>
-    <Name>Aufgabe5</Name>
-    <RootNamespace>Aufgabe5</RootNamespace>
+    <AssemblyName>Aufgabe7</AssemblyName>
+    <Name>Aufgabe7</Name>
+    <RootNamespace>Aufgabe7</RootNamespace>
     <ToolchainFlavour>Native</ToolchainFlavour>
     <KeepTimersRunning>true</KeepTimersRunning>
     <OverrideVtor>false</OverrideVtor>
@@ -124,18 +124,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Serial.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Serial.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="SerialEcho.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="SerialEcho.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
