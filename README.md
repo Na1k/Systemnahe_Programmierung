@@ -39,6 +39,11 @@ Aufgabe 6:
 - via Trim Potti LED trimmen
 - PWM-Wert über Potti einlesen
 
+Aufgabe 7:
+- 2 Taster zur Servosteuerung 
+- 1 Taster Servo links 0° 
+- 1 Taster Servo rechts 180° 
+
 Alternative:
 - eigene Aufgabe vorschlagen (mit Joachim Wagner kommunizieren)
 
