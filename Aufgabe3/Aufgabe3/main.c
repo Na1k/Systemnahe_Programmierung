@@ -5,7 +5,15 @@
  * Author : Gruppe3
  */
 
-#include "IncFile.h"
+/*
+ * pinning:
+ * Buzzer	= D12
+ * Button 1 = D2
+ * Button 2 = D3
+ *
+ */
+
+#include "orgel.h"
 
 ISR (TIMER0_COMPA_vect)  // timer0 overflow interrupt //used as oscillator
 {
@@ -18,23 +26,27 @@ ISR (TIMER2_COMPA_vect)  // timer2 overflow interrupt //used as oscillator
 }
 
  //Button1 interrupt
-ISR (INT0_vect){ 
+ISR (INT0_vect)
+{ 
 	button1Action();
 }
  
  //Button2 interrupt
-ISR (INT1_vect){
+ISR (INT1_vect)
+{
 	 button2Action();
 }
 
-int main() {
+int main()
+{
 	init();
 	while(1) {
 		mainloop();
 	}
 }
 
-void init() {
+void init()
+{
 
 	portSetup();
 	hardwareInterruptSetup();
@@ -44,6 +56,6 @@ void init() {
 	sei();
 }
 
-void mainloop() {
-
+void mainloop()
+{
 }
