@@ -11,10 +11,7 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
- 
-#define SET_BIT(PORT,BIT) PORT|=(1<<BIT)
-#define CLEAR_BIT(PORT,BIT) PORT&=~(1<<BIT)
-#define TOGGLE_BIT(PORT,BIT) PORT ^=(1<<BIT)
+#include "../../common/bitOperations.h"
 
 #define BUZZER PORTB4
 #define BUTTON1 PIND2

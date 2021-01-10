@@ -1,20 +1,18 @@
 /*
- * IncFile.h
+ * trafficLight.h
  *
  * Created: 23.11.2020 23:18:55
  *  Author: Gruppe3
  */ 
 
 
-#ifndef INCFILE1_H_
-#define INCFILE1_H_
+#ifndef TRAFFICLIGHT_H_
+#define TRAFFICLIGHT_H_
 
 #define F_CPU 16000000UL
 #include <avr/io.h>
 #include <util/delay.h>
-
-#define SET_BIT(PORT,BIT) PORT |= (1 << BIT)
-#define CLEAR_BIT(PORT,BIT) PORT &= ~(1 << BIT)
+#include "../../common/bitOperations.h"
 
 #define GREEN PORTB4
 #define YELLOW PORTB3
@@ -49,4 +47,4 @@ void setup();
 void mainloop();
 void trafficLight();
 
-#endif /* INCFILE1_H_ */
+#endif /* TRAFFICLIGHT_H_ */

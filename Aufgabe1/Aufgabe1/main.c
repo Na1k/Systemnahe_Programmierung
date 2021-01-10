@@ -5,7 +5,16 @@
  * Author : Gruppe3
  */
 
-#include "IncFile.h"
+/* 
+ * pinning:
+ * D10 red led 
+ * D11 yellow led
+ * D12 green led
+ */
+
+
+
+#include "trafficLight.h"
 
 int main(void)
 {
@@ -17,8 +26,10 @@ int main(void)
 }
 
 void setup(){
-	// Data Direction Register -> B
-	DDRB |=  (1 << DDB4)|(1 << DDB3)|(1 << DDB2); // set Bit = output
+	// Set outputs
+	SET_BIT(DDRB, DDB2);
+	SET_BIT(DDRB, DDB3);
+	SET_BIT(DDRB, DDB4);
 }
 
 void mainloop(){

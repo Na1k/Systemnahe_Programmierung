@@ -120,22 +120,26 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\common\bitOperations.h">
+      <SubType>compile</SubType>
+      <Link>bitOperations.h</Link>
+    </Compile>
+    <Compile Include="..\..\common\common.h">
+      <SubType>compile</SubType>
+      <Link>common.h</Link>
+    </Compile>
+    <Compile Include="..\..\common\serial.c">
+      <SubType>compile</SubType>
+      <Link>serial.c</Link>
+    </Compile>
+    <Compile Include="..\..\common\serial.h">
+      <SubType>compile</SubType>
+      <Link>serial.h</Link>
+    </Compile>
     <Compile Include="IncFile.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Serial.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Serial.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="SerialEcho.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="SerialEcho.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

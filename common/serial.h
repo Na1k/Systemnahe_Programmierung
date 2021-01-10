@@ -1,5 +1,5 @@
 /*
- * Serial.h
+ * serial.h
  *
  * Created: 03.12.2020 17:29:58
  * Author: Gruppe3
@@ -13,8 +13,8 @@
 #include <avr/io.h>
 #include <stdint.h>                     // needed for uint8_t
 #include <util/delay.h>
-
 #include <avr/interrupt.h>
+#include "../../common/bitOperations.h"
 
 #define BAUD 9600
 #define MYUBRR F_CPU/16/BAUD -1
@@ -51,12 +51,14 @@ static inline void setRegister(){
 	UBRR0H = (MYUBRR >> 8);
 	UBRR0L = MYUBRR;
 	
-	UCSR0B |= (1 << RXEN0) | (1 << TXEN0);      // Enable receiver and transmitter
-	UCSR0C |= (1 << UCSZ01) | (1 << UCSZ00);    // Set frame: 8data, 1stp
+	SET_BIT(UCSR0B, RXEN0);		// Enable receiver
+	SET_BIT(UCSR0B, TXEN0);		// Enable transmitter
+	SET_BIT(UCSR0C, UCSZ01);	// Set frame: 8 bit data, 1stp
+	SET_BIT(UCSR0C, UCSZ00);	// Set frame: 8 bit data, 1stp
 }
 
 // Forward Declaration
-void setupSerialCommunication(callbackPointer_t messageReceivedCallback);
-void setupSerialCommunicationWithoutEcho();
+void setupSerialCallback(callbackPointer_t messageReceivedCallback);
+void setupSerialNoCallback();
 
 #endif /* SERIAL_H_ */

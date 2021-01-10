@@ -4,7 +4,7 @@
  * Created: 03.12.2020 18:44:51
  * Author : Gruppe3
  */ 
-#include "SerialEcho.h"
+#include "../../common/common.h"
 #include "IncFile.h"
 
 #include <stdlib.h>
@@ -29,7 +29,7 @@ int main(void)
 }
 
 void init(){
-	setupWithoutEcho();
+	setupSerialNoCallback();
 	ADMUX = 0;                // use ADC0
 	ADMUX |= (1 << REFS0);    // use AVcc as the reference
 
