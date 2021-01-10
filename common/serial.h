@@ -14,7 +14,7 @@
 #include <stdint.h>                     // needed for uint8_t
 #include <util/delay.h>
 #include <avr/interrupt.h>
-#include "../../common/bitOperations.h"
+#include "bitOperations.h"
 
 #define BAUD 9600
 #define MYUBRR F_CPU/16/BAUD -1
@@ -24,30 +24,37 @@ volatile callbackPointer_t receiverCallback;
 
 // static inline Functions
 
-static inline void sendChar(uint8_t c){
+static inline void sendChar(uint8_t c)
+{
 	while ( !(UCSR0A & (1 << UDRE0)));
 	UDR0 = c;
 }
 
-static inline void lineBreak(){
+static inline void lineBreak()
+{
 	sendChar('\r');
 	sendChar('\n');
 }
 
-static inline void sendStringNewLine(uint8_t* message){
-	while(*message){
+static inline void sendStringNewLine(uint8_t* message)
+{
+	while(*message)
+	{
 		sendChar(*message++);
 	}
 	lineBreak();
 }
 
-static inline void sendString(uint8_t* message){
-	while(*message){
+static inline void sendString(uint8_t* message)
+{
+	while(*message)
+	{
 		sendChar(*message++);
 	}
 }
 
-static inline void setRegister(){
+static inline void setRegister()
+{
 	UBRR0H = (MYUBRR >> 8);
 	UBRR0L = MYUBRR;
 	

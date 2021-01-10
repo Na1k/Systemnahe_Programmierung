@@ -5,6 +5,10 @@
  * Author : Gruppe3
  */ 
 
+/*
+ * No pins used
+ */
+
 #include "echo.h"
 
 int main( void ){

@@ -120,13 +120,13 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\common\adcSetup.h">
+      <SubType>compile</SubType>
+      <Link>adcSetup.h</Link>
+    </Compile>
     <Compile Include="..\..\common\bitOperations.h">
       <SubType>compile</SubType>
       <Link>bitOperations.h</Link>
-    </Compile>
-    <Compile Include="..\..\common\common.h">
-      <SubType>compile</SubType>
-      <Link>common.h</Link>
     </Compile>
     <Compile Include="..\..\common\serial.c">
       <SubType>compile</SubType>
@@ -136,7 +136,7 @@
       <SubType>compile</SubType>
       <Link>serial.h</Link>
     </Compile>
-    <Compile Include="IncFile.h">
+    <Compile Include="potSerial.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
