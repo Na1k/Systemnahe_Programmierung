@@ -1,13 +1,13 @@
 /*
- * IncFile.h
+ * orgel.h
  *
  * Created: 28.11.2020 18:17:48
  * Author: Gruppe3
  */ 
 
 
-#ifndef INCFILE_H_
-#define INCFILE_H_
+#ifndef ORGEL_H_
+#define ORGEL_H_
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -89,4 +89,4 @@ void init();
 void mainloop();
 
 
-#endif /* INCFILE_H_ */
+#endif /* ORGEL_H_ */
