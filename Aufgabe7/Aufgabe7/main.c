@@ -12,10 +12,10 @@
  */
 
 #define F_CPU 16000000UL
-#include <avr/io.h>
-#include "IncFile.h"
+#include <avr/interrupt.h>
+#include "servo.h"
 #include "../../common/bitOperations.h"
-#include <util/delay.h>
+#include "../../common/setupHWInterrupt.h"
 
 
 int main(void)
@@ -27,7 +27,8 @@ int main(void)
     }
 }
 
-void init(){
+void init()
+{
 	SET_BIT(DDRB,DDB1);		// PB1 is now an output
 
 	//PWM Setup
@@ -46,12 +47,24 @@ void init(){
 	SET_BIT(TCCR1B,CS10);
 	SET_BIT(TCCR1B,CS11);
 	
-	//TODO set OCR1A to start value
+	hardwareInterruptSetup();
+	
+	//set OCR1A to start value (middle position)
+	OCR1A = 350;
 }
 
-void mainloop(){
-	_delay_ms(1000);
-	OCR1A = 100;
-	_delay_ms(1000);
-	OCR1A = 600;
+void mainloop()
+{
 }
+
+ //Button1 interrupt
+ ISR (INT0_vect)
+ {
+	 OCR1A = 100;
+ }
+ 
+ //Button2 interrupt
+ ISR (INT1_vect)
+ {
+	 OCR1A = 600;
+ }

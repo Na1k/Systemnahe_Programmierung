@@ -10,10 +10,11 @@
  * Buzzer	= D12
  * Button 1 = D2
  * Button 2 = D3
- *
+ * Button1 and Button2 to GND
  */
 
 #include "orgel.h"
+#include "../../common/setupHWInterrupt.h"
 
 ISR (TIMER0_COMPA_vect)  // timer0 overflow interrupt //used as oscillator
 {
@@ -47,13 +48,9 @@ int main()
 
 void init()
 {
-
 	portSetup();
 	hardwareInterruptSetup();
 	timerInterruptSetup();
-	
-	//enable interrupts
-	sei();
 }
 
 void mainloop()

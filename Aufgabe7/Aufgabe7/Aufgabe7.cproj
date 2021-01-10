@@ -120,7 +120,7 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="IncFile.h">
+    <Compile Include="servo.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
