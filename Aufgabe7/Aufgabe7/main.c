@@ -12,11 +12,8 @@
  */
 
 #define F_CPU 16000000UL
-#include <avr/io.h>
-#include "IncFile.h"
-#include "../../common/bitOperations.h"
-#include <util/delay.h>
 
+#include "IncFile.h"
 
 int main(void)
 {
