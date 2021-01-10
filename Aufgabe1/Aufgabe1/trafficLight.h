@@ -43,7 +43,7 @@ static inline void greenState(){
 }
 
 //function-prototypes
-void setup();
+void init();
 void mainloop();
 void trafficLight();
 

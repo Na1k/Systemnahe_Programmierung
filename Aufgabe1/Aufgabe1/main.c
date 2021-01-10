@@ -18,14 +18,14 @@
 
 int main(void)
 {
-	setup();
+	init();
 	while(1){
 		mainloop();	
 	}
 	
 }
 
-void setup(){
+void init(){
 	// Set outputs
 	SET_BIT(DDRB, DDB2);
 	SET_BIT(DDRB, DDB3);
