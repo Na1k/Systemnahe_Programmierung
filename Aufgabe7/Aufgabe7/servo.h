@@ -9,7 +9,6 @@
 #ifndef SERVO_H_
 #define SERVO_H_
 
-
 #include <avr/io.h>
 #include "../../common/bitOperations.h"
 #include <util/delay.h>

@@ -12,10 +12,7 @@
  */
 
 #define F_CPU 16000000UL
-#include <avr/interrupt.h>
 #include "servo.h"
-#include "../../common/bitOperations.h"
-#include "../../common/setupHWInterrupt.h"
 
 
 int main(void)
