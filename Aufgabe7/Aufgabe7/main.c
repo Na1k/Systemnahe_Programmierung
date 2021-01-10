@@ -6,51 +6,62 @@
  * Task	  : 2 Taster, Servo: --> 0°, 180°
  */ 
 
+/*
+ * D9 servo PWM
+ * Servo to VCC and GND
+ */
+
 #define F_CPU 16000000UL
-#include <avr/io.h>
-#include "IncFile.h"
-#include <util/delay.h>
+#include "servo.h"
 
 
 int main(void)
 {
-    setup();
+    init();
     while (1) 
     {
 		mainloop();
     }
 }
 
-void setup(){
-	DDRB |= (1 << DDB1);
-	// PB1 is now an output
+void init()
+{
+	SET_BIT(DDRB,DDB1);		// PB1 is now an output
 
-	ICR1 = 4999;
-//	ICR1 = 0x09C4;
-	// set TOP to 2500
-	OCR1A = 0;
-//	OCR1A = 125;
-//	// set PWM for 5% duty cycle @ 16bit
-
-//	OCR1A = 250;
-//	// set PWM for 10% duty cycle @ 16bit
-
-	TCCR1A |= (1 << COM1A1)|(1 << COM1B1);
-	// set none-inverting mode
-
-	TCCR1A |= (1 << WGM11);
-	TCCR1B |= (1 << WGM12)|(1 << WGM13);
-	// set Phase corrected PWM mode using ICR1 as TOP
+	//PWM Setup
+	SET_BIT(TCCR1A,COM1A1);	// set none-inverting mode
 	
-	TCCR1B |= (1 << CS10)|(1 << CS11);
+	// set Phase corrected PWM mode using ICR1 as TOP
+	SET_BIT(TCCR1A,WGM11);
+	SET_BIT(TCCR1B,WGM12);
+	SET_BIT(TCCR1B,WGM13);
+	
+	//set TOP_VALUE for 50Hz
+	ICR1 = 4999;			// = (clockSpeed / frequency * prescaler) -1
+							// (16000000/50 * 64) -1	
+	
 	// START the timer with 64 as prescaler
-
-
+	SET_BIT(TCCR1B,CS10);
+	SET_BIT(TCCR1B,CS11);
+	
+	hardwareInterruptSetup();
+	
+	//set OCR1A to start value (middle position)
+	OCR1A = 350;
 }
 
-void mainloop(){
-	_delay_ms(1000);
-	OCR1A = 100;
-	_delay_ms(1000);
-	OCR1A = 600;
+void mainloop()
+{
 }
+
+ //Button1 interrupt
+ ISR (INT0_vect)
+ {
+	 OCR1A = 100;
+ }
+ 
+ //Button2 interrupt
+ ISR (INT1_vect)
+ {
+	 OCR1A = 600;
+ }

@@ -5,15 +5,15 @@
  * Author : Gruppe3
  */ 
 
-#include "SerialEcho.h"
+/*
+ * No pins used
+ */
 
-int main( void )
-{
-	setupEcho();
-	while(1)
-	{
-		;                                      // Main loop
-	}
+#include "echo.h"
+
+int main( void ){
+	setupSerialCallback(echo);
+	while(1){}
 }
 
 

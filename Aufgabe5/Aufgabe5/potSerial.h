@@ -9,7 +9,8 @@
 #ifndef INCFILE_H_
 #define INCFILE_H_
 
-static inline uint16_t setBufferValue(uint8_t PotADCHvalue, uint8_t PotADCLvalue){
+static inline uint16_t convert8to16bit(uint8_t PotADCHvalue, uint8_t PotADCLvalue)
+{
 	uint16_t ADCvalue = PotADCHvalue << 8;
 	ADCvalue += PotADCLvalue;
 	return ADCvalue;

@@ -2,7 +2,7 @@
  * IncFile1.h
  *
  * Created: 28.11.2020 17:24:21
- *  Author: NickK
+ *  Author: Gruppe3
  */ 
 
 
@@ -14,6 +14,8 @@
 #define F_CPU 16000000UL
 #include <avr/io.h>
 #include <util/delay.h>
+#include "../../common/bitOperations.h"
+
 					//Register:
 #define P0 PORTB0	//=> DDB0
 #define P1 PORTB1	//=> DDB1
@@ -26,8 +28,7 @@
 #define LAST_LED 12
 #define START_LED 1
 
-#define SET_BIT(PORT,BIT) PORT |= (1 << BIT)
-#define CLEAR_BIT(PORT,BIT) PORT &= ~(1 << BIT)
+
 
 const int LED_STATES[12][4] =
 //		ON,  OFF,  NOT CONNECTED,  NOT CONNECTED
