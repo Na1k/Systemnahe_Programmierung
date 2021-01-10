@@ -10,18 +10,7 @@
  * Potti to GND and VCC
  * D6 Led
  */
-
-#define F_CPU 16000000UL
-#include <avr/io.h>
-
-#include <stdint.h>
-#include <stdlib.h>
-#include <avr/interrupt.h>
-
 #include "pwmLed.h"
-#include "../../common/adcSetup.h"
-#include "../../common/bitOperations.h"
-
 volatile uint8_t ADCvalue;	// Global variable, set to volatile if used with ISR
 
 int main(void)

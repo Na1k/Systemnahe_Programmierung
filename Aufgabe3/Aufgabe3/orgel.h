@@ -9,7 +9,6 @@
 #ifndef INCFILE_H_
 #define INCFILE_H_
 
-#include <avr/io.h>
 #include <avr/interrupt.h>
 #include "../../common/bitOperations.h"
 

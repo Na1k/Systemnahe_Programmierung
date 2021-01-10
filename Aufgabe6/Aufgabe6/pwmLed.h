@@ -8,6 +8,11 @@
 
 #ifndef INCFILE_H_
 #define INCFILE_H_
+#define F_CPU 16000000UL
+
+#include "../../common/adcSetup.h"
+#include "../../common/bitOperations.h"
+
 
 static inline void dimLed(uint8_t brightness)
 {

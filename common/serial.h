@@ -10,8 +10,6 @@
 #define SERIAL_H_
 
 #define F_CPU 16000000UL
-#include <avr/io.h>
-#include <stdint.h>                     // needed for uint8_t
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include "bitOperations.h"
