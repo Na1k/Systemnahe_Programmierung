@@ -5,18 +5,24 @@
  * Author : Gruppe3
  */ 
 
+/*
+ * A0 output Potti
+ * Potti to GND and VCC
+ * D6 Led
+ */
+
 #define F_CPU 16000000UL
 #include <avr/io.h>
 
-#include <stdint.h>                     // needed for uint8_t
-#include <util/delay.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <avr/interrupt.h>
 
 #include "pwmLed.h"
 #include "../../common/adcSetup.h"
+#include "../../common/bitOperations.h"
 
-volatile uint8_t ADCHvalue;    // Global variable, set to volatile if used with ISR
+volatile uint8_t ADCvalue;	// Global variable, set to volatile if used with ISR
 
 int main(void)
 {
@@ -30,29 +36,27 @@ int main(void)
 
 void init()
 {
-	DDRD |= (1 << DDD6);		// PD6 is now an output
+	SET_BIT(DDRD,DDD6);		// PD6 is now an output
 
-	OCR0A = 128;				// set PWM for 50% duty cycle 
+	//PWM Setup
+	SET_BIT(TCCR0A,COM0A1);	// set none-inverting mode
+	
+	SET_BIT(TCCR0A,WGM00);	// set to fast PWM Mode
+	SET_BIT(TCCR0A,WGM01);	//  |
 
-	TCCR0A |= (1 << COM0A1);	// set none-inverting mode
-
-	TCCR0A |= (1 << WGM01) | (1 << WGM00);		// set fast PWM Mode
-
-	TCCR0B |= (1 << CS01);		// set prescaler to 8 and starts PWM
+	SET_BIT(TCCR0B,CS01);	// set prescaler to 8 and starts PWM
 
 	setup8bitADC();
-		
 }
 
 void mainloop()
 {
-	uint8_t ADCvalue = ADCHvalue;
 	dimLed(ADCvalue);
 }
 
 ISR(ADC_vect)
 {
 	// REMEMBER: once ADCH is read the ADC will update
-	ADCHvalue = ADCH;          // only need to read the high value for 8 bit
+	ADCvalue = ADCH;		// only need to read the high value for 8 bit
 }
 

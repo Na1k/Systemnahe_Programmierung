@@ -11,7 +11,7 @@
 
 
 
-void setup();
+void init();
 void mainloop();
 
 #endif /* INCFILE_H_ */
