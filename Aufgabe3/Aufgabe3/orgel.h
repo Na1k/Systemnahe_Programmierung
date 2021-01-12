@@ -11,6 +11,7 @@
 
 #include <avr/interrupt.h>
 #include "../../common/bitOperations.h"
+#include "../../common/hardwareInterruptSetup.h"
 
 #define BUZZER PORTB4
 #define BUTTON1 PIND2
