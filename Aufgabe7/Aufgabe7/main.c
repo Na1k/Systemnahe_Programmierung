@@ -3,7 +3,7 @@
  *
  * Created: 09.01.2021 13:17:22
  * Author : Gruppe3
- * Task	  : 2 Taster, Servo: --> 0°, 180°
+ * Task	  : 2 Taster, Servo: --> 0Â°, 180Â°
  */ 
 
 /*
@@ -31,7 +31,7 @@ void init()
 	//PWM Setup
 	SET_BIT(TCCR1A,COM1A1);	// set none-inverting mode
 	
-	// set Phase corrected PWM mode using ICR1 as TOP
+	// set Fast PWM mode using ICR1 as TOP
 	SET_BIT(TCCR1A,WGM11);
 	SET_BIT(TCCR1B,WGM12);
 	SET_BIT(TCCR1B,WGM13);
