@@ -5,8 +5,8 @@
  * Author: Gruppe3
  */
 
-#ifndef SETUPHWINTERRUP_H_
-#define SETUPHWINTERRUP_H_
+#ifndef HWINTERRUPTSETUP_H_
+#define HWINTERRUPTSETUP_H_
 
 static inline void hardwareInterruptSetup()
 {
@@ -28,4 +28,4 @@ static inline void hardwareInterruptSetup()
 	sei();
 }
 
-#endif /* SETUPHWINTERRUP_H_ */
+#endif /* HWINTERRUPTSETUP_H_ */
