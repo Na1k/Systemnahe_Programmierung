@@ -14,7 +14,6 @@
  */
 
 #include "orgel.h"
-#include "../../common/setupHWInterrupt.h"
 
 ISR (TIMER0_COMPA_vect)  // timer0 overflow interrupt //used as oscillator
 {
