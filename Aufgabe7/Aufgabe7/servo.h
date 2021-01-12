@@ -11,6 +11,7 @@
 
 #include <avr/io.h>
 #include "../../common/bitOperations.h"
+#include "../../common/hardwareInterruptSetup.h"
 #include <util/delay.h>
 
 void init();
