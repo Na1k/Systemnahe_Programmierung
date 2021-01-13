@@ -9,6 +9,10 @@
 #ifndef INCFILE_H_
 #define INCFILE_H_
 
+#include "../../common/adcSetup.h"
+#include "../../common/serial.h"
+#include <stdlib.h>
+
 static inline uint16_t convert8to16bit(uint8_t PotADCHvalue, uint8_t PotADCLvalue)
 {
 	uint16_t ADCvalue = PotADCHvalue << 8;
