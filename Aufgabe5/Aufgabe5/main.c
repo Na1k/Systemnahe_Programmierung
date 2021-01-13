@@ -11,12 +11,8 @@
  * Potti1 and Potti2 to GND and VCC
  */
 
-
-#include "../../common/serial.h"
 #include "potSerial.h"
-#include "../../common/adcSetup.h"
 
-#include <stdlib.h>
 
 //Output serial monitor: "Potti1: xxxx Potti2: xxxx"
 
