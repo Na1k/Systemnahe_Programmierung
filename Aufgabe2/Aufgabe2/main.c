@@ -25,7 +25,6 @@ void leftToRight(){
 	for(int i=(START_LED-1); i<LAST_LED-1; i++){
 		applyLED(LED_STATES[i]);
 		_delay_ms(200);
-		clearAll();
 	}
 }
 
@@ -33,7 +32,6 @@ void rightToLeft(){
 	for(int i=(LAST_LED-1); i>=(START_LED); i--){
 		applyLED(LED_STATES[i]);
 		_delay_ms(200);
-		clearAll();
 	}
 }
 
