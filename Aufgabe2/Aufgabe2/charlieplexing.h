@@ -6,8 +6,8 @@
  */ 
 
 
-#ifndef INCFILE1_H_
-#define INCFILE1_H_
+#ifndef CHARLIEPLEXING_H_
+#define CHARLIEPLEXING_H_
 
 //INCLUDE/CONST/DEFINE ----------------------------------------
 
@@ -78,4 +78,4 @@ void leftToRight();
 void rightToLeft();
 
 //END OF FUNCTIONS --------------------------------------------
-#endif /* INCFILE1_H_ */
+#endif /* CHARLIEPLEXING_H_ */
