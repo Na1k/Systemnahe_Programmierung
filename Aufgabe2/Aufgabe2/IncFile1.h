@@ -53,7 +53,7 @@ const int LED_STATES[12][4] =
 
 //set Ports as Output/Input, set Ports HIGH/LOW
 static inline void setOutput(const int* portNum){	//Output
-	DDRB |= (1 << *portNum);
+	SET_BIT(DDRB, *portNum);
 }
 static inline void switchOn(const int* portNum){	//set Port HIGH
 	setOutput(portNum);
@@ -63,14 +63,11 @@ static inline void switchOff(const int* portNum){	//set Port LOW
 	setOutput(portNum);
 	CLEAR_BIT(PORTB, *portNum);
 }
-static inline void disconnect(const int* portNum1, const int* portNum2){	//set Port as Input
-	DDRB &= ~(1 << *portNum1) & ~(1 << *portNum2);
+static inline void disconnect(const int* portNum1, const int* portNum2){	
+	CLEAR_BIT(DDRB, *portNum1);					//set Port as Input
+	CLEAR_BIT(DDRB, *portNum2);					//set Port as Input
 	CLEAR_BIT(PORTB, *portNum1);					//to not enable the pull-up resistor
 	CLEAR_BIT(PORTB, *portNum2);					//on the Input-Ports
-}
-
-static inline void clearAll(){
-	DDRB &= ~(1 << P0) & ~(1 << P1) & ~(1 << P2) & ~(1 << P3);
 }
 
 //function-prototypes
