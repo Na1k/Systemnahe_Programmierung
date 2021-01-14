@@ -20,7 +20,7 @@
 //Toggle Timer on Button-Interrupt depending on rising/falling edge
 static inline void button1Action()
 {
-	if(CHECK_BIT(PIND, BUTTON1)){
+	if(CHECK_BIT(PORTD, BUTTON1)){
 		CLEAR_BIT(TIMSK0, OCIE0A);
 	}
 	else{
@@ -29,7 +29,7 @@ static inline void button1Action()
 }
 static inline void button2Action()
 {
-	if(CHECK_BIT(PIND, BUTTON2)){
+	if(CHECK_BIT(PORTD, BUTTON2)){
 		CLEAR_BIT(TIMSK2, OCIE2A);
 	}
 	else{
@@ -39,9 +39,8 @@ static inline void button2Action()
 
 static inline void portSetup()
 {
-	// PB3 and PB4 as Output
+	// PB4 as Output
 	SET_BIT(DDRB, DDB4);
-	SET_BIT(DDRB, DDB3);
 	
 	// init Buzzer as off
 	CLEAR_BIT(PORTB, BUZZER);
@@ -49,13 +48,13 @@ static inline void portSetup()
 
 static inline void timerInterruptSetup()
 {
-	// Set the Timer Mode to CTC
+	// Set the Timer Mode to CTC (Count to a specific value, not to 255)
 	SET_BIT(TCCR0A, WGM01);
 	SET_BIT(TCCR0A, WGM21);
 
-	//set prescaler to 256 / 256
+	//set prescaler to 256 / 256 for Timer0
 	SET_BIT(TCCR0B, CS02);
-	
+	//prescaler for Timer2
 	SET_BIT(TCCR2B, CS21);
 	SET_BIT(TCCR2B, CS22);
 	
@@ -66,6 +65,8 @@ static inline void timerInterruptSetup()
 	//Set the ISR COMPA_vect
 	SET_BIT(TIMSK0, OCIE0A);
 	SET_BIT(TIMSK2, OCIE2A);
+	
+	sei();
 }
 
 void init();
