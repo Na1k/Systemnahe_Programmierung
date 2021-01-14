@@ -120,7 +120,7 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="IncFile1.h">
+    <Compile Include="charlieplexing.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
