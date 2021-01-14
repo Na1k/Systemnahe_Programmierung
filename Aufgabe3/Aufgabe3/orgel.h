@@ -20,7 +20,7 @@
 //Toggle Timer on Button-Interrupt depending on rising/falling edge
 static inline void button1Action()
 {
-	if(CHECK_BIT(PORTD, BUTTON1)){
+	if(CHECK_BIT(PIND, BUTTON1)){
 		CLEAR_BIT(TIMSK0, OCIE0A);
 	}
 	else{
@@ -29,7 +29,7 @@ static inline void button1Action()
 }
 static inline void button2Action()
 {
-	if(CHECK_BIT(PORTD, BUTTON2)){
+	if(CHECK_BIT(PIND, BUTTON2)){
 		CLEAR_BIT(TIMSK2, OCIE2A);
 	}
 	else{
@@ -61,10 +61,6 @@ static inline void timerInterruptSetup()
 	// Set OCR value to 70 / 249
 	OCR0A = 0x46;		//"Sound 1"
 	OCR2A = 0xF9;		//"Sound 2"
-
-	//Set the ISR COMPA_vect
-	SET_BIT(TIMSK0, OCIE0A);
-	SET_BIT(TIMSK2, OCIE2A);
 	
 	sei();
 }
